@@ -13,15 +13,6 @@ struct question{
     int answer;
 };
 
-int display_question(int, struct question questions);
-
-
-
-
-int main()
-{
-
-
 struct question questions[15]={
     {
      "who was what and when q1?","this is option 1","this is option 2","this is option 3","this is option 4",1
@@ -55,8 +46,17 @@ struct question questions[15]={
      "who was what and when q15?","this is option 1","this is option 2","this is option 3","this is option 4",3
  }
 };
-char money[15];
-money_board(3, money);
+// these four functions are declared here and defined at the end
+int display_question(int, struct question);
+int display_question_locked(int ,struct question,int );
+int money_board(int ,char[15]);
+int frame(int,struct question, int, int,int);
+
+//main function still needs work
+int main()
+{
+
+frame(5,questions[5],0,0,3);
 int c = 0;
 int pre=0;
 int locked=0;
@@ -101,7 +101,7 @@ int locked=0;
 int display_question_locked(int num,struct question questions,int v){
     int selected=0;
     printf("----------------------------------------------------\n");
-    printf("question %d-->\n",num);
+    printf("question %d-->\n",num+1);
     printf("question %s\n",questions.question);
     printf("----------------------------------------------------\n");
     switch(v) {
@@ -163,7 +163,7 @@ int display_question_locked(int num,struct question questions,int v){
 int display_question(int num,struct question questions){
     int selected=0;
     printf("----------------------------------------------------\n");
-    printf("question %d-->\n",num);
+    printf("question %d-->\n",num+1);
     printf("question %s\n",questions.question);
     printf("----------------------------------------------------\n");
             selected=1;
@@ -208,3 +208,16 @@ int money_board(int ques_num,char money[15]){
     printf("  1  <> Rs. 5,000\n");
     return 0;
 }
+
+int frame(int ques_num,struct question questions, int life1, int life2,int option){
+char money[15];
+money_board(ques_num, money);
+printf("\nYou currently have %s\n", money);
+if(option){
+        display_question_locked(ques_num,questions,option);
+} else{
+     display_question(ques_num,questions);
+}
+return 0;
+}
+
