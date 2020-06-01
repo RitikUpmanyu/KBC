@@ -1,8 +1,19 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+
 #define SPACE else{printf("                    ");
 #define QUES_POINTER printf("   You are here ->  ")
+#define RED "\x1b[31m"
+#define GREEN "\x1b[32m"
+#define YELLOW "\x1b[33m"
+#define BLUE "\x1b[34m"
+#define MAGENTA "\x1b[35m"
+#define CYAN "\x1b[36m"
+#define COLOR_RESET "\x1b[0m"
+// these colors get displayed on gcc so they can be used like this printf(RED "This text is RED!" COLOR_RESET "\n");
+
 
 struct question{
     char question[200];
@@ -12,51 +23,24 @@ struct question{
     char option4[200];
     int answer;
 };
-
-struct question questions[15]={
-    {
-     "who was what and when q1?","this is option 1","this is option 2","this is option 3","this is option 4",1
- },{
-     "who was what and when q2?","this is option 1","this is option 2","this is option 3","this is option 4",2
- },{
-     "who was what and when q3?","this is option 1","this is option 2","this is option 3","this is option 4",3
- },{
-     "who was what and when q4?","this is option 1","this is option 2","this is option 3","this is option 4",4
- },{
-     "who was what and when q5?","this is option 1","this is option 2","this is option 3","this is option 4",1
- },{
-     "who was what and when q6?","this is option 1","this is option 2","this is option 3","this is option 4",2
- },{
-     "who was what and when q7?","this is option 1","this is option 2","this is option 3","this is option 4",3
- },{
-     "who was what and when q8?","this is option 1","this is option 2","this is option 3","this is option 4",4
- },{
-     "who was what and when q9?","this is option 1","this is option 2","this is option 3","this is option 4",1
- },{
-     "who was what and when q10?","this is option 1","this is option 2","this is option 3","this is option 4",2
- },{
-     "who was what and when q11?","this is option 1","this is option 2","this is option 3","this is option 4",3
- },{
-     "who was what and when q12?","this is option 1","this is option 2","this is option 3","this is option 4",4
- },{
-     "who was what and when q13?","this is option 1","this is option 2","this is option 3","this is option 4",1
- },{
-     "who was what and when q14?","this is option 1","this is option 2","this is option 3","this is option 4",1
- },{
-     "who was what and when q15?","this is option 1","this is option 2","this is option 3","this is option 4",3
- }
-};
+struct question questions[30];
 // these four functions are declared here and defined at the end
 int display_question(int, struct question);
 int display_question_locked(int ,struct question,int );
 int money_board(int ,char[15]);
 int frame(int,struct question, int, int,int);
+int read_questions (struct question [], size_t , char []); //this function takes 3 arguments array of stucts, size of that array, and name of the file where questions are stored
 
+//NOTE - ques.txt currently have 30 questions (even numbered questions are the main ones and odd numbered ones are their alternates for flip the question lifeline
 //main function still needs work
 int main()
 {
 
-frame(5,questions[5],0,0,3);
+int not_opened = read_questions(questions,30,"ques.txt");
+if (not_opened)return 0;
+//pass the appropriate number in index of questions keeping in mind the alternates are at odd numbers
+//for reference --> frame(num,questions[2*num],life1,life2,options_selected)
+frame(13,questions[26],0,0,3);
 int c = 0;
 int pre=0;
 int locked=0;
@@ -108,9 +92,9 @@ int display_question_locked(int num,struct question questions,int v){
         case 1:
             selected=1;
             printf(" ____________________\n");
-            printf("| 1. %s|\t\t",questions.option1);
+            printf("< 1. %s>\t\t",questions.option1);
             printf("2. %s\n",questions.option2);
-            printf(" ____________________\n");
+            printf(" ^^^^^^^^^^^^^^^^^^^^\n");
             printf("3. %s\t\t",questions.option3);
             printf("4. %s\n",questions.option4);
             break;
@@ -119,8 +103,8 @@ int display_question_locked(int num,struct question questions,int v){
             selected=2;
             printf("                      \t\t ____________________\n");
             printf("1. %s\t\t",questions.option1);
-            printf("|2. %s|\n",questions.option2);
-            printf("                      \t\t ____________________\n");
+            printf("<2. %s>\n",questions.option2);
+            printf("                      \t\t ^^^^^^^^^^^^^^^^^^^^\n");
             printf("3. %s\t\t",questions.option3);
             printf("4. %s\n",questions.option4);
             break;
@@ -131,9 +115,9 @@ int display_question_locked(int num,struct question questions,int v){
             printf("1. %s\t\t",questions.option1);
             printf("2. %s\n",questions.option2);
             printf(" ____________________\n");
-            printf("|3. %s|\t\t",questions.option3);
+            printf("<3. %s>\t\t",questions.option3);
             printf("4. %s\n",questions.option4);
-            printf(" ____________________\n");
+            printf(" ^^^^^^^^^^^^^^^^^^^^\n");
             break;
 
 
@@ -143,8 +127,8 @@ int display_question_locked(int num,struct question questions,int v){
             printf("2. %s\n",questions.option2);
             printf("                      \t\t ____________________\n");
             printf("3. %s\t\t",questions.option3);
-            printf("|4. %s|\n",questions.option4);
-            printf("                      \t\t ____________________\n");
+            printf("<4. %s>\n",questions.option4);
+            printf("                      \t\t ^^^^^^^^^^^^^^^^^^^^\n");
             break;
 
 
@@ -209,6 +193,7 @@ int money_board(int ques_num,char money[15]){
     return 0;
 }
 
+//because main questions are even numbered (see ques.txt ) we multiply ques_num by 2
 int frame(int ques_num,struct question questions, int life1, int life2,int option){
 char money[15];
 money_board(ques_num, money);
@@ -220,4 +205,62 @@ if(option){
 }
 return 0;
 }
+
+//basically fills the array of structure with the values on ques.txt
+int read_questions (struct question questions[], size_t len, char ques_file[]){
+
+    FILE *fp=fopen(ques_file,"r");
+        if (!fp) {
+            printf("Can't open questions source file\n");
+            return 1;
+        }
+
+        char *buf=malloc(1024);
+        int ques_num = 0;
+        int field_cnt = 0;
+        while (fgets(buf, 1024, fp)!=NULL) {
+            field_cnt = 0;
+
+
+            if (ques_num == len) {
+                break;
+            }
+            char field[1024];
+            int field_pos =0;
+            int i=0;
+            do {
+                    field[field_pos++] = buf[i];
+                    if ((buf[i] == ',' || buf[i] == '\n')) {
+                        field[field_pos - 1] = 0;
+                        field_pos = 0;
+                    switch(field_cnt){
+                        case 0:
+                            strcpy(questions[ques_num].question,field);
+                            break;
+                        case 1:
+                            strcpy(questions[ques_num].option1,field);
+                            break;
+                        case 2:
+                            strcpy(questions[ques_num].option2,field);
+                            break;
+                        case 3:
+                            strcpy(questions[ques_num].option3,field);
+                            break;
+                        case 4:
+                            strcpy(questions[ques_num].option4,field);
+                            break;
+                        case 5:
+                            questions[ques_num].answer=atoi(field);
+
+                }
+
+                field_cnt++;
+            }}while (buf[++i]);
+            ques_num++;
+        }
+        fclose(fp);
+        free(buf);
+        return 0;
+}
+
 

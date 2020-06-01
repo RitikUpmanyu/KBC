@@ -1,3 +1,8 @@
 bin
 obj
 KBC.cbp
+*.exe
+*.o
+*.out
+readinglogic.c
+playground.c
