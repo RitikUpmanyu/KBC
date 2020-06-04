@@ -2,12 +2,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "myhead.c"
 
 #define SPACE                           \
     else                                \
     {                                   \
         printf("                    "); \
     }
+
 #define QUES_POINTER printf("   You are here ->  ")
 #define RED "\x1b[31m"
 #define GREEN "\x1b[32m"
@@ -17,17 +19,19 @@
 #define CYAN "\x1b[36m"
 #define COLOR_RESET "\x1b[0m"
 // these colors get displayed on gcc so they can be used like this printf(RED "This text is RED!" COLOR_RESET "\n");
+#define SP printf("    ")
 
 struct question
 {
-    char question[200];
-    char option1[200];
-    char option2[200];
-    char option3[200];
-    char option4[200];
+    char *question;
+    char *option1;
+    char *option2;
+    char *option3;
+    char *option4;
     int answer;
 };
 struct question questions[30];
+
 // these four functions are declared here and defined at the end
 int display_question(int, struct question);
 int display_question_locked(int, struct question, int);
@@ -35,18 +39,49 @@ int money_board(int, char[15]);
 int frame(int, struct question, int, int, int);
 int read_questions(struct question[], size_t, char[]); //this function takes 3 arguments array of stucts, size of that array, and name of the file where questions are stored
 void moneyfield(int, int, char **, char *);            // this is a helper function for moneyboard
+int formattext(char *, int);
+int formattextq(char *str, int width, int, int, int);
+void linecount(char *str, int width, int *num_lines);
+void formatques(char *str, int width);
+int formattexto(char *str1, char *str2, int width, int num_lines, int num_lines_og, int og);
+void formatopt(char *str1, char *str2, int width);
 //NOTE - ques.txt currently have 30 questions (even numbered questions are the main ones and odd numbered ones are their alternates for flip the question lifeline)
 //main function still needs work
 int main()
 {
-
+    //getting rid of segmentation fault-->allocate memory
+    for (int i = 0; i < 30; i++)
+    {
+        questions[i].question = malloc(500);
+        questions[i].option1 = malloc(500);
+        questions[i].option2 = malloc(500);
+        questions[i].option3 = malloc(500);
+        questions[i].option4 = malloc(500);
+    }
+    printf(RED "This text is RED!" COLOR_RESET "\n");
     int not_opened = read_questions(questions, 30, "ques.txt");
     if (not_opened)
         return 0;
     //pass the appropriate number in index of questions keeping in mind the alternates are at odd numbers
     //for reference --> frame(num,questions[2*num],life1,life2,options_selected)
-    frame(14, questions[28], 0, 0, 3);
-
+    for (int u = 0; u < 15; u++)
+    {
+        frame(u, questions[u * 2], 0, 0, 0);
+    }
+    for (int u = 0; u < 15; u++)
+    {
+        frame(u, questions[u * 2 + 1], 0, 0, 0);
+    }
+    //never forget to free memory
+    for (int i = 0; i < 30; i++)
+    {
+        free(questions[i].question);
+        free(questions[i].option1);
+        free(questions[i].option2);
+        free(questions[i].option3);
+        free(questions[i].option4);
+    }
+    return 0;
     //anything below this line in main function isn't doing anything as of now
     int c = 0;
     int pre = 0;
@@ -91,7 +126,6 @@ int main()
     {
         printf("%d %d Better luck next time :(", locked, questions[0].answer);
     }
-    return 0;
 }
 
 int display_question_locked(int num, struct question questions, int v)
@@ -159,10 +193,11 @@ int display_question(int num, struct question questions)
     int selected = 0;
     printf("----------------------------------------------------\n");
     printf("question %d-->\n", num + 1);
-    printf("question %s\n", questions.question);
-    printf("----------------------------------------------------\n");
+    formatques(questions.question, 50);
+    printf("\n");
     selected = 1;
-    printf("1. %s\t\t", questions.option1);
+    formatopt(questions.option1, questions.option2, 15);
+    printf("\t\t");
     printf("2. %s\n", questions.option2);
     printf("3. %s\t\t", questions.option3);
     printf("4. %s\n", questions.option4);
@@ -218,7 +253,8 @@ void moneyfield(int ques_num_on, int ques_num_field, char **moneyarr, char *mone
 //because main questions are even numbered (see ques.txt ) we multiply index of array of structs by 2
 int frame(int ques_num, struct question questions, int life1, int life2, int option)
 {
-    char money[15];
+    char *money;
+    money = (char *)malloc(15 * sizeof(char));
     money_board(ques_num, money);
     printf("\nYou currently have %s\n", money);
     if (option)
@@ -260,9 +296,9 @@ int read_questions(struct question questions[], size_t len, char ques_file[])
         do
         {
             field[field_pos++] = buf[i];
-            if ((buf[i] == ',' || buf[i] == '\n'))
+            if ((buf[i] == ';' || buf[i] == '\n'))
             {
-                field[field_pos - 1] = 0;
+                field[field_pos - 1] = '\0';
                 field_pos = 0;
                 switch (field_cnt)
                 {

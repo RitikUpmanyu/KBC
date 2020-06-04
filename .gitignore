@@ -6,3 +6,5 @@ KBC.cbp
 *.out
 readinglogic.c
 playground.c
+*.swp
+kbcnew-old.c

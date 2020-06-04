@@ -1,33 +1,32 @@
-"who was what and when q1?","this is option 1","this is option 2","this is option 3","this is option 4",1
-"who was what and when q1alt?","this is option 1","this is option 2","this is option 3","this is option 4",2
-"who was what and when q2?","this is option 1","this is option 2","this is option 3","this is option 4",3
-"who was what and when q2alt?","this is option 1","this is option 2","this is option 3","this is option 4",4
-"who was what and when q3?","this is option 1","this is option 2","this is option 3","this is option 4",1
-"who was what and when q3alt?","this is option 1","this is option 2","this is option 3","this is option 4",2
-"who was what and when q4?","this is option 1","this is option 2","this is option 3","this is option 4",3
-"who was what and when q4alt?","this is option 1","this is option 2","this is option 3","this is option 4",4
-"who was what and when q5?","this is option 1","this is option 2","this is option 3","this is option 4",1
-"who was what and when q5alt?","this is option 1","this is option 2","this is option 3","this is option 4",3
-"who was what and when q6?","this is option 1","this is option 2","this is option 3","this is option 4",4
-"who was what and when q6alt?","this is option 1","this is option 2","this is option 3","this is option 4",1
-"who was what and when q7?","this is option 1","this is option 2","this is option 3","this is option 4",3
-"who was what and when q7alt?","this is option 1","this is option 2","this is option 3","this is option 4",4
-"who was what and when q8?","this is option 1","this is option 2","this is option 3","this is option 4",3
-"who was what and when q8alt?","this is option 1","this is option 2","this is option 3","this is option 4",1
-"who was what and when q9?","this is option 1","this is option 2","this is option 3","this is option 4",1
-"who was what and when q9alt?","this is option 1","this is option 2","this is option 3","this is option 4",3
-"who was what and when q10?","this is option 1","this is option 2","this is option 3","this is option 4",2
-"who was what and when q10alt?","this is option 1","this is option 2","this is option 3","this is option 4",3
-"who was what and when q11?","this is option 1","this is option 2","this is option 3","this is option 4",4
-"who was what and when q11alt?","this is option 1","this is option 2","this is option 3","this is option 4",1
-"who was what and when q12?","this is option 1","this is option 2","this is option 3","this is option 4",3
-"who was what and when q12alt?","this is option 1","this is option 2","this is option 3","this is option 4",2
-"who was what and when q13?","this is option 1","this is option 2","this is option 3","this is option 4",1
-"who was what and when q13alt?","this is option 1","this is option 2","this is option 3","this is option 4",4
-"who was what and when q14?","this is option 1","this is option 2","this is option 3","this is option 4",2
-"who was what and when q14alt?","this is option 1","this is option 2","this is option 3","this is option 4",1
-"who was what and when q15?","this is option 1","this is option 2","this is option 3","this is option 4",4
-"who was what and when q15alt?","this is option 1","this is option 2","this is option 3","this is option 4",3
-
+Where was COVID-19 first reported??;Italy;China;USA;India;2
+What is the full form of WHO?;World Help Office;World Health Office;World Help Organisation;World Health Organisation;4
+Who was the wife of Lord Rama according to the Indian epic Ramayana?;Laxmi;Kaushalya;Sita;Draupadi;3
+Where was Lord Krishna born according to the Indian epic Mahabharat?;In a palace;In a hut;On a Roadside;In a Prison;4
+where were the Olpympics supposed to be held in 2020?;Tokyo (Japan);Rio de Jenerio (Brazil);Mumbai (India);London (United Kingdom);1
+Who is known as flying sikh of India;Navjot Singh;Milkha Singh;Ussain Bolt;Dara Singh;2
+Which one of these is called Dry Ice?;Solid Carbon mono-oxide;Solid Carbon-dioxide;Solid Oxygen;Solid Salt-Water;2
+which material is present to measure temperature in thermometer?;Tungsten;Mercury;Silver;Water;2
+What was the name of Amir Khan in 3 Idiots?;Raju Rastogi;Farhan Quereshi;Phunsuk Wangdu;Chatur Ramalingam;3
+Who is known as BigB in India?;Amitabh Bachhan;Abhishek Bachhan;Bobby Deol;Bipasha Basu;1
+What is the 5th planet of solar system?;Saturn;Neptune;Mars;Jupiter;4
+Which planet is known as Red Planet of Solar System?;Mercury;Mars;Venus;Jupiter;2
+How many Bones does an adult human have?;205;207;206;208;3
+What part of your body does not grow after birth?;Eyeball;Tounge;Liver;Heart;1
+Which of these games have a Striker and a Queen?;Chess;Ludo;Snake and Ladder;Carrom;4
+In Chess, how can the queen cannot move like?;Like the knight;Like the bishop;Like the rook;Like the pawn;1
+The last Mughal Emperor was?;Akbar;Bahadur Shah;Aurangjeb;Shah Jhahan;1
+which dynasty did King Ashoka belong to?;Gupta Dynasty;Maurya Dynasty;Kushan Dynasty;Maratha Dynasty;2
+What kind of errors can be pointed out by the compiler?;Syntax error;Symantic error;Logical error;Internal error;1
+Find out the correct definition of Wide Area Network (WAN)?;It is a programming language with strong abstraction from the details of the computer.;It is a collection of computers interconnected with each other through cables to share their data, information and other common hardware resources.;A computer network that covers a broad area (i.e. any network, whose communications links cross metropolitan, regional or national boundaries).;A computer network covering a small physical area like a home, office or small groups of buildings such as a school or an airport.;3
+Computers which offer information are called .......... and those which seek information are called ...........-; Servers, clients;Clients, servers;Applications, complex soft-wares;System software, application software;1
+Email addresses in ............. field are visible to all recipients. Email addresses in ........... field are visible to only the recipient;Bcc, To;Cc and Bcc, To;To and Bcp, Cc;To and Cc, Bcc;4
+Some animals bounce sound waves off an object to detect their location, this is known as echolocation. Which of the following animals does not use echolocation?;Bat;Dolphin;Shrew;Shark;4
+Elephants can hear sounds between one and 20,000 hertz. This means they can hear?;Higher sound frequencies than humans; Lower sound frequencies than humans;The same sound frequency range as humans;A smaller sound frequency range than humans;2
+The largest river basin in india is of the river?;Brahmaputra;Godavari;Ganga;Krishna;3
+Which of the following is the largest port in India?;Mumbai;Chennai;Kolkata;Vishakhapatnam;1
+The most populous city in the world is?;Paris;Delhi;Tokyo;London;3
+The country without income tax is?;Nepal;Singapore;Burma;Kuwait;4
+The Lok Sabha is also known as?;Council of states;The Upper House;Parliament;The House of the People;4
+The first Indian Woman to scale Mount Everest was?;Arati Saha;Asha Agarwal;Bachendri Pal;Reita Fariya;3
 
 
