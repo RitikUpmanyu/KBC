@@ -40,9 +40,9 @@ int frame(int, struct question, int, int, int);
 int read_questions(struct question[], size_t, char[]); //this function takes 3 arguments array of stucts, size of that array, and name of the file where questions are stored
 void moneyfield(int, int, char **, char *);            // this is a helper function for moneyboard
 int formattext(char *, int);
-int formattextq(char *str, int width, int, int, int);
+int formattextq(char *str, int width, int, int, int, int);
 void linecount(char *str, int width, int *num_lines);
-void formatques(char *str, int width);
+void formatques(char *str, int width, int);
 int formattexto(char *str1, char *str2, int width, int num_lines, int num_lines_og, int og);
 void formatopt(char *str1, char *str2, int width);
 //NOTE - ques.txt currently have 30 questions (even numbered questions are the main ones and odd numbered ones are their alternates for flip the question lifeline)
@@ -64,10 +64,10 @@ int main()
         return 0;
     //pass the appropriate number in index of questions keeping in mind the alternates are at odd numbers
     //for reference --> frame(num,questions[2*num],life1,life2,options_selected)
-    for (int u = 0; u < 15; u++)
-    {
-        frame(u, questions[u * 2], 0, 0, 0);
-    }
+    //for (int u = 0; u < 15; u++)
+    //{
+    frame(10, questions[20], 0, 0, 0);
+    //}
     for (int u = 0; u < 15; u++)
     {
         frame(u, questions[u * 2 + 1], 0, 0, 0);
@@ -191,35 +191,32 @@ int display_question_locked(int num, struct question questions, int v)
 int display_question(int num, struct question questions)
 {
     int selected = 0;
-    printf("----------------------------------------------------\n");
     printf("question %d-->\n", num + 1);
-    formatques(questions.question, 50);
+    formatques(questions.question, 50, 0);
     printf("\n");
     selected = 1;
     formatopt(questions.option1, questions.option2, 20);
     formatopt(questions.option3, questions.option4, 20);
-
-    printf("----------------------------------------------------\n");
     return selected;
 }
 
 int money_board(int ques_num, char money[15])
 {
-    char *moneyarr[15] = {"Rs. 5,000",
-                          "Rs. 10,000",
-                          "Rs. 20,000",
-                          "Rs. 40,000",
-                          "Rs. 80,000",
-                          "Rs. 1,60,000",
-                          "Rs. 3,20,000",
-                          "Rs. 6,40,000",
-                          "Rs. 12,50,000",
-                          "Rs. 25,00,000",
-                          "Rs. 50,00,000",
-                          "Rs. 1,00,00,000",
-                          "Rs. 3,00,00,000",
-                          "Rs. 5,00,00,000",
-                          "Rs. 7,00,00,000"};
+    char *moneyarr[30] = {"Rs. 5,000", "1 <~> Rs. 5,000",
+                          "Rs. 10,000", "2 <~> Rs. 10,000",
+                          "Rs. 20,000", "3 <~> Rs. 20,000",
+                          "Rs. 40,000", "4 <~> Rs. 40,000",
+                          "Rs. 80,000", "5 <~> Rs. 80,000",
+                          "Rs. 1,60,000", "6 <~> Rs. 1,60,000",
+                          "Rs. 3,20,000", "7 <~> Rs. 3,20,000",
+                          "Rs. 3,20,000", "8 <~> Rs. 3,20,000",
+                          "Rs. 12,50,000", "9 <~> Rs. 12,50,000",
+                          "Rs. 25,00,000", "10 <~> Rs. 25,00,000",
+                          "Rs. 50,00,000", "11 <~> Rs. 50,00,000",
+                          "Rs. 1,00,00,000", "12 <~> Rs. 1,00,00,000",
+                          "Rs. 3,00,00,000", "13 <~> Rs. 3,00,00,000",
+                          "Rs. 5,00,00,000", "14 <~> Rs. 5,00,00,000",
+                          "Rs. 7,00,00,000", "15 <~> Rs. 7,00,00,000"};
     for (int i = 14; i >= 0; i--)
     {
         moneyfield(ques_num, i, moneyarr, money);
@@ -235,16 +232,38 @@ void moneyfield(int ques_num_on, int ques_num_field, char **moneyarr, char *mone
             printf(" You are HERE!!! -> ");
         else
             QUES_POINTER;
-        strcpy(money, moneyarr[ques_num_field]);
+        strcpy(money, moneyarr[ques_num_field * 2]);
     }
     SPACE
-    if (ques_num_field == 2 || ques_num_field == 7 || ques_num_field == 11)
+    if (ques_num_field == ques_num_on)
     {
-        printf("< %d  <> %s >\n", ques_num_field + 1, moneyarr[ques_num_field]);
+        formatques(moneyarr[(ques_num_field * 2) + 1], strlen(moneyarr[(ques_num_field * 2) + 1]), 1);
+        printf("\n");
     }
     else
     {
-        printf("  %d  <> %s\n", ques_num_field + 1, moneyarr[ques_num_field]);
+        if (ques_num_on < ques_num_field)
+        {
+            if (ques_num_field == 2 || ques_num_field == 7 || ques_num_field == 11)
+            {
+                printf("< %d  <> %s >\n", ques_num_field + 1, moneyarr[ques_num_field * 2]);
+            }
+            else
+            {
+                printf("  %d  <> %s\n", ques_num_field + 1, moneyarr[ques_num_field * 2]);
+            }
+        }
+        else
+        {
+            if (ques_num_field == 2 || ques_num_field == 7 || ques_num_field == 11)
+            {
+                printf("< %d  </> %s >\n", ques_num_field + 1, moneyarr[ques_num_field * 2]);
+            }
+            else
+            {
+                printf("  %d  </> %s\n", ques_num_field + 1, moneyarr[ques_num_field * 2]);
+            }
+        }
     }
 }
 
@@ -253,8 +272,9 @@ int frame(int ques_num, struct question questions, int life1, int life2, int opt
 {
     char *money;
     money = (char *)malloc(15 * sizeof(char));
+    printf("_____________________________________________________________\n\n");
     money_board(ques_num, money);
-    printf("\nYou currently have %s\n", money);
+    printf("You currently have %s\n", money);
     if (option)
     {
         display_question_locked(ques_num, questions, option);

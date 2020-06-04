@@ -21,7 +21,7 @@
 #define SP printf("    ")
 
 //main formatting function, not to be directly called(use formatques to implement this)
-int formattextq(char *str, int width, int num_lines, int num_lines_og, int og)
+int formattextq(char *str, int width, int num_lines, int num_lines_og, int og, int money_flag)
 {
 
     int length_str = strlen(str);
@@ -39,7 +39,7 @@ int formattextq(char *str, int width, int num_lines, int num_lines_og, int og)
         {
             printf("____");
         }
-        else
+        else if (!money_flag)
             SP;
         for (int l = 0; l < ((num_lines - 1) * -1) / 2; l++)
         {
@@ -66,11 +66,16 @@ int formattextq(char *str, int width, int num_lines, int num_lines_og, int og)
 
         printf("/");
         printf("\n");
-        SP;
         for (int l = 0; l < ((num_lines - 3) * -1) / 2; l++)
         {
             printf(" ");
         }
+        if (money_flag)
+        {
+            printf("                    ");
+        }
+        else
+            SP;
         for (int i = 0; i <= width; i++)
         {
             printf("^");
@@ -161,7 +166,7 @@ int formattextq(char *str, int width, int num_lines, int num_lines_og, int og)
         }
         remaining_str[length_str - count - 1] = '\0';
         num_lines -= 2;
-        formattextq(remaining_str, width, num_lines, num_lines_og, og); //recursion is awesome
+        formattextq(remaining_str, width, num_lines, num_lines_og, og, 0); //recursion is awesome
     }
 }
 
@@ -195,7 +200,7 @@ void linecount(char *str, int width, int *num_lines)
 }
 
 //formats question in a pretty box according to width
-void formatques(char *str, int width)
+void formatques(char *str, int width, int money_flag)
 {
     int lines = 0;
     int *linesptr = &lines;
@@ -204,12 +209,15 @@ void formatques(char *str, int width)
     {
         printf(" ");
     }
-    if (lines == 1)
+    if (!money_flag)
     {
-        printf("____");
+        if (lines == 1)
+        {
+            printf("____");
+        }
+        else
+            SP;
     }
-    else
-        SP;
     for (int i = 0; i < (lines - 1) / 2; i++)
     {
         printf(" ");
@@ -220,12 +228,17 @@ void formatques(char *str, int width)
         printf("^");
     }
     printf("\\");
-    if (lines == 1)
+    if (!money_flag)
     {
-        printf("____");
+        if (lines == 1)
+        {
+            printf("____");
+        }
     }
     printf("\n");
-    formattextq(str, width, lines, lines, lines); //yes i am indeed passing same three arguments
+    if (money_flag)
+        printf("                    ");
+    formattextq(str, width, lines, lines, lines, money_flag); //yes i am indeed passing same three arguments
 }
 
 int formattexto(char *str1, char *str2, int width, int num_lines, int num_lines_og, int og)
@@ -354,7 +367,7 @@ int formattexto(char *str1, char *str2, int width, int num_lines, int num_lines_
         remaining_str[length_str1 - count - 1] = '\0';
         num_lines -= 2;
 
-        formattextq(remaining_str, width, num_lines, num_lines_og, og); //recursion is awesome
+        formattextq(remaining_str, width, num_lines, num_lines_og, og, 0); //recursion is awesome
     }
     if (length_str2 <= width)
     {
@@ -502,7 +515,7 @@ int formattexto(char *str1, char *str2, int width, int num_lines, int num_lines_
         }
         remaining_str[length_str2 - count - 1] = '\0';
         num_lines -= 2;
-        formattextq(remaining_str, width, num_lines, num_lines_og, og); //recursion is awesome
+        formattextq(remaining_str, width, num_lines, num_lines_og, og, 0); //recursion is awesome
     }
 }
 
@@ -577,9 +590,9 @@ void formatopt(char *str1, char *str2, int width)
         int len = strlen(str1);
         if (strlen(str1) < strlen(str2))
             len = strlen(str2);
-        formatques(str1, len);
+        formatques(str1, len, 0);
         printf("\n");
-        formatques(str2, len);
+        formatques(str2, len, 0);
         printf("\n");
     }
 }
