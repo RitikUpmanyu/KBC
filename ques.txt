@@ -1,32 +1,32 @@
-Where was COVID-19 first reported?;Italy;China;USA;India;2
-What is the full form of WHO?;World Help Office;World Health Office;World Help Organisation;World Health Organisation;4
-Who was the wife of Lord Rama according to the Indian epic Ramayana?;Laxmi;Kaushalya;Sita;Draupadi;3
-Where was Lord Krishna born according to the Indian epic Mahabharat?;In a palace;In a hut;On a Roadside;In a Prison;4
-where were the Olpympics supposed to be held in 2020?;Tokyo (Japan);Rio de Jenerio (Brazil);Mumbai (India);London (United Kingdom);1
-Who is known as flying sikh of India;Navjot Singh;Milkha Singh;Ussain Bolt;Dara Singh;2
-Which one of these is called Dry Ice?;Solid Carbon mono-oxide;Solid Carbon-dioxide;Solid Oxygen;Solid Salt-Water;2
-which material is present to measure temperature in thermometer?;Tungsten;Mercury;Silver;Water;2
-What was the name of Amir Khan in 3 Idiots?;Raju Rastogi;Farhan Quereshi;Phunsuk Wangdu;Chatur Ramalingam;3
-Who is known as BigB in India?;Amitabh Bachhan;Abhishek Bachhan;Bobby Deol;Bipasha Basu;1
-What is the 5th planet of solar system?;Saturn;Neptune;Mars;Jupiter;4
-Which planet is known as Red Planet of Solar System?;Mercury;Mars;Venus;Jupiter;2
-How many Bones does an adult human have?;205;207;206;208;3
-What part of your body does not grow after birth?;Eyeball;Tounge;Liver;Heart;1
-Which of these games have a Striker and a Queen?;Chess;Ludo;Snake and Ladder;Carrom;4
-In Chess, how can the queen cannot move like?;Like the knight;Like the bishop;Like the rook;Like the pawn;1
-The last Mughal Emperor was?;Akbar;Bahadur Shah;Aurangjeb;Shah Jhahan;1
-which dynasty did King Ashoka belong to?;Gupta Dynasty;Maurya Dynasty;Kushan Dynasty;Maratha Dynasty;2
-What kind of errors can be pointed out by the compiler?;Syntax error;Symantic error;Logical error;Internal error;1
-Which consists of two plates separated by a dielectric and can store a charge?;Inductor;Transistor;Capacitor;Relay;3
-Computers which offer information are called .......... and those which seek information are called ...........-; Servers, clients;Clients, servers;Applications, complex soft-wares;System software, application software;1
-Email addresses in ............. field are visible to all recipients. Email addresses in ........... field are visible to only the recipient;Bcc, To;Cc and Bcc, To;To and Bcp, Cc;To and Cc, Bcc;4
-Some animals bounce sound waves off an object to detect their location, this is known as echolocation. Which of the following animals does not use echolocation?;Bat;Dolphin;Shrew;Shark;4
-Elephants can hear sounds between one and 20,000 hertz. This means they can hear?;Higher sound frequencies than humans; Lower sound frequencies than humans;The same sound frequency range as humans;A smaller sound frequency range than humans;2
-The largest river basin in india is of the river?;Brahmaputra;Godavari;Ganga;Krishna;3
-Which of the following is the largest port in India?;Mumbai;Chennai;Kolkata;Vishakhapatnam;1
-The most populous city in the world is?;Paris;Delhi;Tokyo;London;3
-The country without income tax is?;Nepal;Singapore;Burma;Kuwait;4
-The Lok Sabha is also known as?;Council of states;The Upper House;Parliament;The House of the People;4
-The first Indian Woman to scale Mount Everest was?;Arati Saha;Asha Agarwal;Bachendri Pal;Reita Fariya;3
+Where was COVID-19 first reported?;A. Italy;B. China;C. USA;D. India;2
+What is the full form of WHO?;A. World Help Office;B. World Health Office;C. World Help Organisation;D. World Health Organisation;4
+Who was the wife of Lord Rama according to the Indian epic Ramayana?;A. Laxmi;B. Kaushalya;C. Sita;D. Draupadi;3
+Where was Lord Krishna born according to the Indian epic Mahabharat?;A. In a palace;B. In a hut;C. On a Roadside;D. In a Prison;4
+where were the Olpympics supposed to be held in 2020?;A. Tokyo (Japan);B. Rio de Jenerio (Brazil);C. Mumbai (India);D. London (United Kingdom);1
+Who is known as flying sikh of India;A. Navjot Singh;B. Milkha Singh;C. Ussain Bolt;D. Dara Singh;2
+Which one of these is called Dry Ice?;A. Solid Carbon mono-oxide;B. Solid Carbon-dioxide;C. Solid Oxygen;D. Solid Salt-Water;2
+which material is present to measure temperature in thermometer?;A. Tungsten;B. Mercury;C. Silver;D. Water;2
+What was the name of Amir Khan in 3 Idiots?;A. Raju Rastogi;B. Farhan Quereshi;C. Phunsuk Wangdu;D. Chatur Ramalingam;3
+Who is known as BigB in India?;A. Amitabh Bachhan;B. Abhishek Bachhan;C. Bobby Deol;D. Bipasha Basu;1
+What is the 5th planet of solar system?;A. Saturn;B. Neptune;C. Mars;D. Jupiter;4
+Which planet is known as Red Planet of Solar System?;A. Mercury;B. Mars;C. Venus;D. Jupiter;2
+How many Bones does an adult human have?;A. 205;B. 207;C. 206;D. 208;3
+What part of your body does not grow after birth?;A. Eyeball;B. Tounge;C. Liver;D. Heart;1
+Which of these games have a Striker and a Queen?;A. Chess;B. Ludo;C. Snake and Ladder;D. Carrom;4
+In Chess, how can the queen cannot move like?;A. Like the knight;B. Like the bishop;C. Like the rook;D. Like the pawn;1
+The last Mughal Emperor was?;A. Akbar;B. Bahadur Shah;C. Aurangjeb;D. Shah Jhahan;1
+which dynasty did King Ashoka belong to?;A. Gupta Dynasty;B. Maurya Dynasty;C. Kushan Dynasty;D. Maratha Dynasty;2
+What kind of errors can be pointed out by the compiler?;A. Syntax error;B. Symantic error;C. Logical error;D. Internal error;1
+Which consists of two plates separated by a dielectric and can store a charge?;A. Inductor;B. Transistor;C. Capacitor;D. Relay;3
+Computers which offer information are called .......... and those which seek information are called ...........-;A.  Servers, clients;B. Clients, servers;C. Applications, complex soft-wares;D. System software, application software;1
+Email addresses in ............. field are visible to all recipients. Email addresses in ........... field are visible to only the recipient;A. Bcc, To;B. Cc and Bcc, To;C. To and Bcp, Cc;D. To and Cc, Bcc;4
+Some animals bounce sound waves off an object to detect their location, this is known as echolocation. Which of the following animals does not use echolocation?;A. Bat;B. Dolphin;C. Shrew;D. Shark;4
+Elephants can hear sounds between one and 20,000 hertz. This means they can hear?;A. Higher sound frequencies than humans;B.  Lower sound frequencies than humans;C. The same sound frequency range as humans;D. A smaller sound frequency range than humans;2
+The largest river basin in india is of the river?;A. Brahmaputra;B. Godavari;C. Ganga;D. Krishna;3
+Which of the following is the largest port in India?;A. Mumbai;B. Chennai;C. Kolkata;D. Vishakhapatnam;1
+The most populous city in the world is?;A. Paris;B. Delhi;C. Tokyo;D. London;3
+The country without income tax is?;A. Nepal;B. Singapore;C. Burma;D. Kuwait;4
+The Lok Sabha is also known as?;A. Council of states;B. The Upper House;C. Parliament;D. The House of the People;4
+The first Indian Woman to scale Mount Everest was?;A. Arati Saha;B. Asha Agarwal;C. Bachendri Pal;D. Reita Fariya;3
 
 

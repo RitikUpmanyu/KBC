@@ -196,11 +196,9 @@ int display_question(int num, struct question questions)
     formatques(questions.question, 50);
     printf("\n");
     selected = 1;
-    formatopt(questions.option1, questions.option2, 15);
-    printf("\n");
+    formatopt(questions.option1, questions.option2, 20);
+    formatopt(questions.option3, questions.option4, 20);
 
-    printf("3. %s\t\t", questions.option3);
-    printf("4. %s\n", questions.option4);
     printf("----------------------------------------------------\n");
     return selected;
 }

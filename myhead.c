@@ -353,6 +353,7 @@ int formattexto(char *str1, char *str2, int width, int num_lines, int num_lines_
         }
         remaining_str[length_str1 - count - 1] = '\0';
         num_lines -= 2;
+
         formattextq(remaining_str, width, num_lines, num_lines_og, og); //recursion is awesome
     }
     if (length_str2 <= width)
@@ -360,9 +361,13 @@ int formattexto(char *str1, char *str2, int width, int num_lines, int num_lines_
         if (num_lines == 3)
         {
             printf("____");
+            printf("____");
         }
         else
+        {
             SP;
+            SP;
+        }
         for (int l = 0; l < ((num_lines - 1) * -1) / 2; l++)
         {
             printf(" ");
@@ -390,6 +395,20 @@ int formattexto(char *str1, char *str2, int width, int num_lines, int num_lines_
         printf("\n");
         SP;
         for (int l = 0; l < ((num_lines - 3) * -1) / 2; l++)
+        {
+            printf(" ");
+        }
+        for (int i = 0; i <= width; i++)
+        {
+            printf("^");
+        }
+        if (og % 2 == 0)
+        {
+            printf("^^");
+        }
+        SP;
+        SP;
+        for (int l = 0; l < ((num_lines - 5) * -1) / 2; l++)
         {
             printf(" ");
         }
@@ -495,57 +514,72 @@ void formatopt(char *str1, char *str2, int width)
     int lines2 = 0;
     int *linesptr2 = &lines2;
     linecount(str2, width, linesptr2);
-    if (lines1 % 2 == 0)
-    {
-        printf(" ");
-    }
-    if (lines1 == 1)
-    {
-        printf("____");
-    }
-    else
-        SP;
-    for (int i = 0; i < (lines1 - 1) / 2; i++)
-    {
-        printf(" ");
-    }
-    printf("/");
-    for (int j = 0; j <= width; j++)
-    {
-        printf("^");
-    }
-    printf("\\");
-    if (lines1 == 1)
-    {
-        printf("____");
-    }
-    if (lines2 % 2 == 0)
-    {
-        printf(" ");
-    }
-    if (lines2 == 1)
-    {
-        printf("____");
-    }
-    else
-        SP;
-    for (int i = 0; i < (lines2 - 1) / 2; i++)
-    {
-        printf(" ");
-    }
-    printf("/");
-    for (int j = 0; j <= width; j++)
-    {
-        printf("^");
-    }
-    printf("\\");
-    if (lines2 == 1)
-    {
-        printf("____");
-    }
-    printf("\n");
     int lines = lines1;
     if (lines1 < lines2)
         lines = lines2;
-    formattexto(str1, str2, width, lines, lines, lines); //yes i am indeed passing same three arguments
+    if (lines < 2)
+    {
+        if (lines1 % 2 == 0)
+        {
+            printf(" ");
+        }
+        if (lines1 == 1)
+        {
+            printf("____");
+        }
+        else
+            SP;
+        for (int i = 0; i < (lines1 - 1) / 2; i++)
+        {
+            printf(" ");
+        }
+        printf("/");
+        for (int j = 0; j <= width; j++)
+        {
+            printf("^");
+        }
+        printf("\\");
+        if (lines1 == 1)
+        {
+            printf("____");
+        }
+        if (lines2 % 2 == 0)
+        {
+            printf(" ");
+        }
+        if (lines2 == 1)
+        {
+            printf("____");
+        }
+        else
+            SP;
+        for (int i = 0; i < (lines2 - 1) / 2; i++)
+        {
+            printf(" ");
+        }
+        printf("/");
+        for (int j = 0; j <= width; j++)
+        {
+            printf("^");
+        }
+        printf("\\");
+        if (lines2 == 1)
+        {
+            printf("____");
+        }
+        printf("\n");
+
+        formattexto(str1, str2, width, lines, lines, lines);
+        printf("\n");
+    }
+    else
+    {
+        int len = strlen(str1);
+        if (strlen(str1) < strlen(str2))
+            len = strlen(str2);
+        formatques(str1, len);
+        printf("\n");
+        formatques(str2, len);
+        printf("\n");
+    }
 }
