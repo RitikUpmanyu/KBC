@@ -1,4 +1,4 @@
-Where was COVID-19 first reported??;Italy;China;USA;India;2
+Where was COVID-19 first reported?;Italy;China;USA;India;2
 What is the full form of WHO?;World Help Office;World Health Office;World Help Organisation;World Health Organisation;4
 Who was the wife of Lord Rama according to the Indian epic Ramayana?;Laxmi;Kaushalya;Sita;Draupadi;3
 Where was Lord Krishna born according to the Indian epic Mahabharat?;In a palace;In a hut;On a Roadside;In a Prison;4
@@ -17,7 +17,7 @@ In Chess, how can the queen cannot move like?;Like the knight;Like the bishop;Li
 The last Mughal Emperor was?;Akbar;Bahadur Shah;Aurangjeb;Shah Jhahan;1
 which dynasty did King Ashoka belong to?;Gupta Dynasty;Maurya Dynasty;Kushan Dynasty;Maratha Dynasty;2
 What kind of errors can be pointed out by the compiler?;Syntax error;Symantic error;Logical error;Internal error;1
-Find out the correct definition of Wide Area Network (WAN)?;It is a programming language with strong abstraction from the details of the computer.;It is a collection of computers interconnected with each other through cables to share their data, information and other common hardware resources.;A computer network that covers a broad area (i.e. any network, whose communications links cross metropolitan, regional or national boundaries).;A computer network covering a small physical area like a home, office or small groups of buildings such as a school or an airport.;3
+Which consists of two plates separated by a dielectric and can store a charge?;Inductor;Transistor;Capacitor;Relay;3
 Computers which offer information are called .......... and those which seek information are called ...........-; Servers, clients;Clients, servers;Applications, complex soft-wares;System software, application software;1
 Email addresses in ............. field are visible to all recipients. Email addresses in ........... field are visible to only the recipient;Bcc, To;Cc and Bcc, To;To and Bcp, Cc;To and Cc, Bcc;4
 Some animals bounce sound waves off an object to detect their location, this is known as echolocation. Which of the following animals does not use echolocation?;Bat;Dolphin;Shrew;Shark;4
