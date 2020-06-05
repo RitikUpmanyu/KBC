@@ -202,21 +202,21 @@ int display_question(int num, struct question questions)
 
 int money_board(int ques_num, char money[15])
 {
-    char *moneyarr[30] = {"Rs. 5,000", "1 <~> Rs. 5,000",
-                          "Rs. 10,000", "2 <~> Rs. 10,000",
-                          "Rs. 20,000", "3 <~> Rs. 20,000",
-                          "Rs. 40,000", "4 <~> Rs. 40,000",
-                          "Rs. 80,000", "5 <~> Rs. 80,000",
-                          "Rs. 1,60,000", "6 <~> Rs. 1,60,000",
-                          "Rs. 3,20,000", "7 <~> Rs. 3,20,000",
-                          "Rs. 3,20,000", "8 <~> Rs. 3,20,000",
-                          "Rs. 12,50,000", "9 <~> Rs. 12,50,000",
-                          "Rs. 25,00,000", "10 <~> Rs. 25,00,000",
-                          "Rs. 50,00,000", "11 <~> Rs. 50,00,000",
-                          "Rs. 1,00,00,000", "12 <~> Rs. 1,00,00,000",
-                          "Rs. 3,00,00,000", "13 <~> Rs. 3,00,00,000",
-                          "Rs. 5,00,00,000", "14 <~> Rs. 5,00,00,000",
-                          "Rs. 7,00,00,000", "15 <~> Rs. 7,00,00,000"};
+    char *moneyarr[30] = {"Rs. 5,000", "1   <~> Rs. 5,000",
+                          "Rs. 10,000", "2   <~> Rs. 10,000",
+                          "Rs. 20,000", "3   <~> Rs. 20,000",
+                          "Rs. 40,000", "4   <~> Rs. 40,000",
+                          "Rs. 80,000", "5   <~> Rs. 80,000",
+                          "Rs. 1,60,000", "6   <~> Rs. 1,60,000",
+                          "Rs. 3,20,000", "7   <~> Rs. 3,20,000",
+                          "Rs. 3,20,000", "8   <~> Rs. 3,20,000",
+                          "Rs. 12,50,000", "9   <~> Rs. 12,50,000",
+                          "Rs. 25,00,000", "10  <~> Rs. 25,00,000",
+                          "Rs. 50,00,000", "11  <~> Rs. 50,00,000",
+                          "Rs. 1,00,00,000", "12  <~> Rs. 1,00,00,000",
+                          "Rs. 3,00,00,000", "13  <~> Rs. 3,00,00,000",
+                          "Rs. 5,00,00,000", "14  <~> Rs. 5,00,00,000",
+                          "Rs. 7,00,00,000", "15  <~> Rs. 7,00,00,000"};
     for (int i = 14; i >= 0; i--)
     {
         moneyfield(ques_num, i, moneyarr, money);
@@ -245,23 +245,23 @@ void moneyfield(int ques_num_on, int ques_num_field, char **moneyarr, char *mone
         if (ques_num_on < ques_num_field)
         {
             if (ques_num_field == 2 || ques_num_field == 7 || ques_num_field == 11)
-            {
-                printf("< %d  <> %s >\n", ques_num_field + 1, moneyarr[ques_num_field * 2]);
+            {   
+                printf("< %-2d  <>  %s >\n",ques_num_field + 1, moneyarr[ques_num_field * 2]);
             }
             else
-            {
-                printf("  %d  <> %s\n", ques_num_field + 1, moneyarr[ques_num_field * 2]);
+            {   
+                printf("  %-2d  <>  %s\n",ques_num_field + 1, moneyarr[ques_num_field * 2]);
             }
         }
         else
         {
             if (ques_num_field == 2 || ques_num_field == 7 || ques_num_field == 11)
-            {
-                printf("< %d  </> %s >\n", ques_num_field + 1, moneyarr[ques_num_field * 2]);
+            {   
+                printf("< %-2d  </>  %s >\n",ques_num_field + 1, moneyarr[ques_num_field * 2]);
             }
             else
             {
-                printf("  %d  </> %s\n", ques_num_field + 1, moneyarr[ques_num_field * 2]);
+                printf("  %-2d  </>  %s\n",ques_num_field + 1, moneyarr[ques_num_field * 2]);
             }
         }
     }

@@ -3,13 +3,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define SPACE                           \
-    else                                \
-    {                                   \
-        printf("                    "); \
-    }
-
-#define QUES_POINTER printf("   You are here ->  ")
 #define RED "\x1b[31m"
 #define GREEN "\x1b[32m"
 #define YELLOW "\x1b[33m"
