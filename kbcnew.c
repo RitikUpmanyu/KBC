@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "myhead.c"
+#include "formatting.c"
 
 #define SPACE                           \
     else                                \
@@ -43,7 +43,7 @@ int formattext(char *, int);
 int formattextq(char *str, int width, int, int, int, int);
 void linecount(char *str, int width, int *num_lines);
 void formatques(char *str, int width, int);
-int formattexto(char *str1, char *str2, int width, int num_lines, int num_lines_og, int og);
+int formattexto(char *str1, char *str2, int width);
 void formatopt(char *str1, char *str2, int width);
 //NOTE - ques.txt currently have 30 questions (even numbered questions are the main ones and odd numbered ones are their alternates for flip the question lifeline)
 //main function still needs work
@@ -64,10 +64,10 @@ int main()
         return 0;
     //pass the appropriate number in index of questions keeping in mind the alternates are at odd numbers
     //for reference --> frame(num,questions[2*num],life1,life2,options_selected)
-    //for (int u = 0; u < 15; u++)
-    //{
-    frame(10, questions[20], 0, 0, 0);
-    //}
+    for (int u = 0; u < 15; u++)
+    {
+        frame(u, questions[u * 2], 0, 0, 0);
+    }
     for (int u = 0; u < 15; u++)
     {
         frame(u, questions[u * 2 + 1], 0, 0, 0);
