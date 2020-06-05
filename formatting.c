@@ -239,14 +239,14 @@ void formatques(char *str, int width, int money_flag)
 
 //almost similar fuction as formattextq but uses the stategy twice for printing options side by side
 // there are no multiple line so becomes a little easier (no resursion here)
-int formattexto(char *str1, char *str2, int width)
+int formattexto(char *str1, char *str2, int width, int selected)
 {
 
     int length_str1 = strlen(str1); //for first option
     int length_str2 = strlen(str2); //for second option
 
     SP;
-
+    if(selected==1)printf(CYAN);
     printf("\\ ");
     for (int j = 0; j < length_str1; j++)
     {
@@ -261,6 +261,7 @@ int formattexto(char *str1, char *str2, int width)
     printf("/");
 
     SP;
+    if(selected==1)printf(YELLOW);else if(selected==2)printf(CYAN);
     SP;
 
     printf("\\ ");
@@ -275,15 +276,17 @@ int formattexto(char *str1, char *str2, int width)
     }
 
     printf("/");
+    if(selected==2)printf(YELLOW);
     printf("\n");
     SP;
     printf(" ");
-
+    if(selected==1)printf(CYAN);
     for (int i = 0; i <= width; i++)
     {
         printf("^");
     }
     SP;
+    if(selected==1)printf(YELLOW);else if(selected==2)printf(CYAN);
     SP;
 
     printf("  ");
@@ -292,11 +295,11 @@ int formattexto(char *str1, char *str2, int width)
     {
         printf("^");
     }
-
+    if(selected==2)printf(YELLOW);
     return 0;
 }
 
-void formatopt(char *str1, char *str2, int width)
+void formatopt(char *str1, char *str2, int width, int selected)
 {
     int lines1 = 0;
     int *linesptr1 = &lines1;
@@ -309,7 +312,7 @@ void formatopt(char *str1, char *str2, int width)
         lines = lines2;
     if (lines < 2)
     {
-
+        if(selected==1)printf(CYAN);
         printf("____/");
 
         for (int j = 0; j <= width; j++)
@@ -317,7 +320,9 @@ void formatopt(char *str1, char *str2, int width)
             printf("^");
         }
 
-        printf("\\________/");
+        printf("\\____");
+        if(selected==1)printf(YELLOW);else if(selected==2)printf(CYAN);
+        printf("____/");
 
         for (int j = 0; j <= width; j++)
         {
@@ -325,18 +330,20 @@ void formatopt(char *str1, char *str2, int width)
         }
 
         printf("\\____\n");
-
-        formattexto(str1, str2, width);
+        if(selected==2)printf(YELLOW);
+        formattexto(str1, str2, width, selected);
         printf("\n");
     }
     else
-    {
+    {   
         int len = strlen(str1);
         if (strlen(str1) < strlen(str2))
             len = strlen(str2);
+        if(selected==1)printf(CYAN);else printf(YELLOW);
         formatques(str1, len, 0);
         printf("\n");
+        if(selected==2)printf(CYAN);else printf(YELLOW);
         formatques(str2, len, 0);
-        printf("\n");
+        printf("\n" COLOR_RESET);
     }
 }

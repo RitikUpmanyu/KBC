@@ -20,6 +20,35 @@
 #define COLOR_RESET "\x1b[0m"
 // these colors get displayed on gcc so they can be used like this printf(RED "This text is RED!" COLOR_RESET "\n");
 #define SP printf("    ")
+//////////////////////////////////////////////////////////////////
+#if defined(_WIN32) || defined(_WIN64)
+        const char* os = "win";
+#else
+#ifdef __linux
+        const char* os = "linux";
+#else
+        const char* os = "unknown";
+#endif
+#endif
+// To use time library of C 
+#include <time.h> 
+
+//provide agrument in miliseconds
+void delay(int number_of_seconds) 
+{   int c, d;
+    for (c = 1; c <= 23*number_of_seconds; c++)
+       for (d = 1; d <= 23*number_of_seconds; d++)
+       {}
+} 
+//function to clear the terminal
+void clear_screen(){
+    if(os=="win"){
+        system("cls");
+    }else if(os=="linux"){
+        system("clear");
+    }
+}
+
 
 struct question
 {
@@ -43,8 +72,8 @@ int formattext(char *, int);
 int formattextq(char *str, int width, int, int, int, int);
 void linecount(char *str, int width, int *num_lines);
 void formatques(char *str, int width, int);
-int formattexto(char *str1, char *str2, int width);
-void formatopt(char *str1, char *str2, int width);
+int formattexto(char *str1, char *str2, int width, int selected);
+void formatopt(char *str1, char *str2, int width, int selected);
 //NOTE - ques.txt currently have 30 questions (even numbered questions are the main ones and odd numbered ones are their alternates for flip the question lifeline)
 //main function still needs work
 int main()
@@ -64,14 +93,17 @@ int main()
         return 0;
     //pass the appropriate number in index of questions keeping in mind the alternates are at odd numbers
     //for reference --> frame(num,questions[2*num],life1,life2,options_selected)
-    for (int u = 0; u < 15; u++)
+    for (int u = 0; u < 14; u++)
     {
-        frame(u, questions[u * 2], 0, 0, 0);
+        frame(u, questions[u * 2], 0, 0, 3);
+        delay(500);
+        clear_screen();
     }
-    for (int u = 0; u < 15; u++)
-    {
-        frame(u, questions[u * 2 + 1], 0, 0, 0);
-    }
+    frame(14, questions[28], 0, 0, 3);
+    //for (int u = 0; u < 15; u++)
+    //{
+    //    frame(u, questions[u * 2 + 1], 0, 0, 4);
+    //}
     //never forget to free memory
     for (int i = 0; i < 30; i++)
     {
@@ -128,76 +160,37 @@ int main()
     }
 }
 
-int display_question_locked(int num, struct question questions, int v)
+int display_question_locked(int num, struct question questions, int selected)
 {
-    int selected = 0;
-    printf("----------------------------------------------------\n");
     printf("question %d-->\n", num + 1);
-    printf("question %s\n", questions.question);
-    printf("----------------------------------------------------\n");
-    switch (v)
-    {
-    case 1:
-        selected = 1;
-        printf(" ____________________\n");
-        printf("< 1. %s>\t\t", questions.option1);
-        printf("2. %s\n", questions.option2);
-        printf(" ^^^^^^^^^^^^^^^^^^^^\n");
-        printf("3. %s\t\t", questions.option3);
-        printf("4. %s\n", questions.option4);
-        break;
-
-    case 2:
-        selected = 2;
-        printf("                      \t\t ____________________\n");
-        printf("1. %s\t\t", questions.option1);
-        printf("<2. %s>\n", questions.option2);
-        printf("                      \t\t ^^^^^^^^^^^^^^^^^^^^\n");
-        printf("3. %s\t\t", questions.option3);
-        printf("4. %s\n", questions.option4);
-        break;
-
-    case 3:
-        selected = 3;
-        printf("1. %s\t\t", questions.option1);
-        printf("2. %s\n", questions.option2);
-        printf(" ____________________\n");
-        printf("<3. %s>\t\t", questions.option3);
-        printf("4. %s\n", questions.option4);
-        printf(" ^^^^^^^^^^^^^^^^^^^^\n");
-        break;
-
-    case 4:
-        selected = 4;
-        printf("1. %s\t\t", questions.option1);
-        printf("2. %s\n", questions.option2);
-        printf("                      \t\t ____________________\n");
-        printf("3. %s\t\t", questions.option3);
-        printf("<4. %s>\n", questions.option4);
-        printf("                      \t\t ^^^^^^^^^^^^^^^^^^^^\n");
-        break;
-
-    default:
-        selected = 0;
-        printf("1. %s\t\t", questions.option1);
-        printf("2. %s\n", questions.option2);
-        printf("3. %s\t\t", questions.option3);
-        printf("4. %s\n", questions.option4);
-        break;
-    }
-    printf("----------------------------------------------------\n");
-    return selected;
+    printf(GREEN);
+    formatques(questions.question, 50, 0);
+    printf("\n");
+    printf(COLOR_RESET);
+    printf(YELLOW);
+    if (selected==1||selected==2){
+        formatopt(questions.option1, questions.option2, 20, selected);}
+    else
+    formatopt(questions.option1, questions.option2, 20,0);
+    if (selected==3||selected==4){
+        selected-=2;
+        formatopt(questions.option3, questions.option4, 20,selected);}
+    else
+    formatopt(questions.option3, questions.option4, 20,0);
+    printf(COLOR_RESET);
+    return 0;
 }
 int display_question(int num, struct question questions)
 {
-    int selected = 0;
     printf("question %d-->\n", num + 1);
+    printf(YELLOW);
     formatques(questions.question, 50, 0);
     printf("\n");
-    selected = 1;
-    formatopt(questions.option1, questions.option2, 20);
-    formatopt(questions.option3, questions.option4, 20);
-    return selected;
+    printf(COLOR_RESET MAGENTA);
+    formatopt(questions.option1, questions.option2, 20,0);
+    formatopt(questions.option3, questions.option4, 20,0);
+    printf(COLOR_RESET);
+    return 0;
 }
 
 int money_board(int ques_num, char money[15])
