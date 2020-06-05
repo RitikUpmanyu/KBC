@@ -93,17 +93,17 @@ int main()
         return 0;
     //pass the appropriate number in index of questions keeping in mind the alternates are at odd numbers
     //for reference --> frame(num,questions[2*num],life1,life2,options_selected)
-    for (int u = 0; u < 14; u++)
+    for (int u = 0; u < 15; u++)
     {
         frame(u, questions[u * 2], 0, 0, 3);
-        delay(500);
-        clear_screen();
+        //delay(500);
+        //clear_screen();
     }
-    frame(14, questions[28], 0, 0, 3);
-    //for (int u = 0; u < 15; u++)
-    //{
-    //    frame(u, questions[u * 2 + 1], 0, 0, 4);
-    //}
+    //frame(14, questions[28], 0, 0, 3);
+    for (int u = 0; u < 15; u++)
+    {
+        frame(u, questions[u * 2 + 1], 0, 0, 4);
+    }
     //never forget to free memory
     for (int i = 0; i < 30; i++)
     {
@@ -164,19 +164,19 @@ int display_question_locked(int num, struct question questions, int selected)
 {
     printf("question %d-->\n", num + 1);
     printf(GREEN);
-    formatques(questions.question, 50, 0);
+    formatques(questions.question, 71, 0);
     printf("\n");
     printf(COLOR_RESET);
     printf(YELLOW);
     if (selected==1||selected==2){
-        formatopt(questions.option1, questions.option2, 20, selected);}
+        formatopt(questions.option1, questions.option2, 30, selected);}
     else
-    formatopt(questions.option1, questions.option2, 20,0);
+    formatopt(questions.option1, questions.option2, 30,0);
     if (selected==3||selected==4){
         selected-=2;
-        formatopt(questions.option3, questions.option4, 20,selected);}
+        formatopt(questions.option3, questions.option4, 30,selected);}
     else
-    formatopt(questions.option3, questions.option4, 20,0);
+    formatopt(questions.option3, questions.option4, 30,0);
     printf(COLOR_RESET);
     return 0;
 }
@@ -184,11 +184,11 @@ int display_question(int num, struct question questions)
 {
     printf("question %d-->\n", num + 1);
     printf(YELLOW);
-    formatques(questions.question, 50, 0);
+    formatques(questions.question, 100, 0);
     printf("\n");
     printf(COLOR_RESET MAGENTA);
-    formatopt(questions.option1, questions.option2, 20,0);
-    formatopt(questions.option3, questions.option4, 20,0);
+    formatopt(questions.option1, questions.option2, 30,0);
+    formatopt(questions.option3, questions.option4, 30,0);
     printf(COLOR_RESET);
     return 0;
 }
