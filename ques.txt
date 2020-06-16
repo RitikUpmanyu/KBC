@@ -14,7 +14,7 @@ How many Bones does an adult human have?;A. 205;B. 207;C. 206;D. 208;3
 What part of your body does not grow after birth?;A. Eyeball;B. Tounge;C. Liver;D. Heart;1
 Which of these games have a Striker and a Queen?;A. Chess;B. Ludo;C. Snake and Ladder;D. Carrom;4
 In Chess, how can the queen cannot move like?;A. Like the knight;B. Like the bishop;C. Like the rook;D. Like the pawn;1
-The last Mughal Emperor was?;A. Akbar;B. Bahadur Shah;C. Aurangjeb;D. Shah Jhahan;1
+The last Mughal Emperor was?;A. Akbar;B. Bahadur Shah;C. Aurangjeb;D. Shah Jhahan;2
 which dynasty did King Ashoka belong to?;A. Gupta Dynasty;B. Maurya Dynasty;C. Kushan Dynasty;D. Maratha Dynasty;2
 What kind of errors can be pointed out by the compiler?;A. Syntax error;B. Symantic error;C. Logical error;D. Internal error;1
 Which consists of two plates separated by a dielectric and can store a charge?;A. Inductor;B. Transistor;C. Capacitor;D. Relay;3
