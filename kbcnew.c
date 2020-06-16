@@ -104,7 +104,7 @@ int main()
     char ans[90];
     fgets(ans, 90, stdin);
     printf("%d\n",ans[0]);
-    switch (anss[0])
+    switch (ans[0])
     {
     case 97://for small letters also
     case 65:
@@ -130,10 +130,11 @@ int main()
     }
     else
     {
-        printf("%d %d %d Better luck next time :(", locked, questions[2*u].answer, anss[0]);
+        printf("%d %d %d Better luck next time :(", locked, questions[2*u].answer, ans[0]);
         break;
     }
     u++;
+    clear_screen();
     }
     //frame(14, questions[28], 0, 0, 3);
     //for (int u = 0; u < 15; u++)
