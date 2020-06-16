@@ -18,6 +18,7 @@
 #define MAGENTA "\x1b[35m"
 #define CYAN "\x1b[36m"
 #define COLOR_RESET "\x1b[0m"
+#define BoldBlue "\x1b[1;34m"
 // these colors get displayed on gcc so they can be used like this printf(RED "This text is RED!" COLOR_RESET "\n");
 #define SP printf("    ")
 //////////////////////////////////////////////////////////////////
@@ -74,6 +75,7 @@ void linecount(char *str, int width, int *num_lines);
 void formatques(char *str, int width, int);
 int formattexto(char *str1, char *str2, int width, int selected);
 void formatopt(char *str1, char *str2, int width, int selected);
+/*int user_input(int);*/
 //NOTE - ques.txt currently have 30 questions (even numbered questions are the main ones and odd numbered ones are their alternates for flip the question lifeline)
 //main function still needs work
 int main()
@@ -95,12 +97,54 @@ int main()
     //for reference --> frame(num,questions[2*num],life1,life2,options_selected)
     for (int u = 0; u < 15; u++)
     {
+        if(questions[u*2].answer==1)
+        {
+            questions[u*2].answer=questions[u*2].option1[0];
+        }
+        else if(questions[u*2].answer==2)
+        {
+            questions[u*2].answer=questions[u*2].option2[0];
+        }
+        else if(questions[u*2].answer==3)
+        {
+            questions[u*2].answer=questions[u*2].option3[0];
+        }
+        else if(questions[u*2].answer==4)
+        {
+            questions[u*2].answer=questions[u*2].option4[0];
+        }
         frame(u, questions[u * 2], 0, 0, 3);
         //delay(500);
         //clear_screen();
+    int locked,ans = 0;
+    scanf("%d",&ans);
+    switch ((ans))
+    {
+    case 65:
+        locked = (questions[2*u].option1[0]);
+        break;
+    case 66:
+        locked = (questions[2*u].option2[0]);
+        break;
+    case 67:
+        locked = (questions[2*u].option3[0]);
+        break;
+    case 68:
+        locked = (questions[2*u].option4[0]);
+        break;
+    }
+
+    if (locked == questions[2u].answer)
+    {
+        printf("correct answer!!!");
+    }
+    else
+    {
+        printf("%d %d Better luck next time :(", locked, questions[0].answer);
+    }
     }
     //frame(14, questions[28], 0, 0, 3);
-    for (int u = 0; u < 15; u++)
+    /*for (int u = 0; u < 15; u++)
     {
         frame(u, questions[u * 2 + 1], 0, 0, 4);
     }
@@ -112,53 +156,29 @@ int main()
         free(questions[i].option2);
         free(questions[i].option3);
         free(questions[i].option4);
-    }
-    return 0;
+        questions[i].question=NULL;
+        questions[i].option1=NULL;
+        questions[i].option2=NULL;
+        questions[i].option3=NULL;
+        questions[i].option4=NULL;
+    }*/
     //anything below this line in main function isn't doing anything as of now
-    int c = 0;
-    int pre = 0;
-    int locked = 0;
-
-    c = 0;
-    c = getchar();
-    switch ((c))
-    {
-    case 49:
-        locked = display_question(0, questions[0]);
-        pre = 1;
-        printf("%d\n", c);
-        break;
-    case 50:
-        locked = display_question(0, questions[0]);
-        pre = 2;
-        printf("%d\n", c);
-        break;
-    case 51:
-        locked = display_question(0, questions[0]);
-        pre = 3;
-        printf("%d\n", c);
-        break;
-    case 52:
-        locked = display_question(0, questions[0]);
-        pre = 4;
-        printf("%d\n", c);
-        break;
-    default:
-        locked = display_question(0, questions[0]);
-        pre = 0;
-        printf("%d\n", c);
-        break;
-    }
-
-    if (locked == questions[0].answer)
-    {
-        printf("correct answer!!!");
-    }
+    return 0;
+}
+/*int user_input(int op)
+{
+    int correct_option,selected_option;
+    correct_option=op;
+    scanf("%d",&selected_option);
+    if(selected_option==correct_option){
+        printf("Correct Answer\n");
+}
     else
     {
-        printf("%d %d Better luck next time :(", locked, questions[0].answer);
+        printf("Better Luck Next Time");
     }
-}
+    return 0;
+}*/
 
 int display_question_locked(int num, struct question questions, int selected)
 {
