@@ -74,6 +74,7 @@ void linecount(char *str, int width, int *num_lines);
 void formatques(char *str, int width, int);
 int formattexto(char *str1, char *str2, int width, int selected);
 void formatopt(char *str1, char *str2, int width, int selected);
+int lifeline1(struct question[],int quesno);
 /*int user_input(int);*/
 //NOTE - ques.txt currently have 30 questions (even numbered questions are the main ones and odd numbered ones are their alternates for flip the question lifeline)
 //main function still needs work
@@ -122,6 +123,10 @@ int main()
     case 68:
         locked = 4;
         break;
+    case 76:
+    case 108:
+    lifeline1(questions,u*2);
+    break;
     }
     if(locked==0){
         continue;
@@ -174,7 +179,70 @@ int main()
     }
     return 0;
 }*/
-
+int lifeline1(struct question questions[],int quesno)
+{
+    int i,random;
+    char *ranopt;
+    random=(rand()%(4))+1;
+        while(random!=questions[quesno].answer)
+        {
+            random=(rand()%(4))+1;
+            if(random==1)
+            {
+                ranopt=questions[quesno].option1;
+            }
+            else if(random==2)
+            {
+                ranopt=questions[quesno].option2;
+            }
+            else if(random==3)
+            {
+                ranopt=questions[quesno].option3;
+            }
+            else
+                ranopt=questions[quesno].option4;
+        }
+        if(questions[quesno].answer==1)
+        {
+            printf("question %d-->\n", quesno + 1);
+    printf(YELLOW);
+    formatques(questions[quesno].question, 100, 0);
+    printf("\n");
+    printf(COLOR_RESET MAGENTA);
+    formatopt(ranopt,questions[quesno].option1, 30,0);
+    printf(COLOR_RESET);
+        }
+        else if(questions[quesno].answer==2)
+        {
+                   printf("question %d-->\n", quesno + 1);
+    printf(YELLOW);
+    formatques(questions[quesno].question, 100, 0);
+    printf("\n");
+    printf(COLOR_RESET MAGENTA);
+    formatopt(questions[quesno].option2,ranopt, 30,0);
+    printf(COLOR_RESET);
+        }
+        else if(questions[quesno].answer==3)
+        {
+                   printf("question %d-->\n", quesno + 1);
+    printf(YELLOW);
+    formatques(questions[quesno].question, 100, 0);
+    printf("\n");
+    printf(COLOR_RESET MAGENTA);
+    formatopt(questions[quesno].option3,ranopt, 30,0);
+    printf(COLOR_RESET);
+        }
+        else
+        {
+                   printf("question %d-->\n", quesno + 1);
+    printf(YELLOW);
+    formatques(questions[quesno].question, 100, 0);
+    printf("\n");
+    printf(COLOR_RESET MAGENTA);
+    formatopt(questions[quesno].option4,ranopt, 30,0);
+    printf(COLOR_RESET);
+        }
+}
 int display_question_locked(int num, struct question questions, int selected)
 {
     printf("question %d-->\n", num + 1);
