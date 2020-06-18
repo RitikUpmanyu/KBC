@@ -100,10 +100,10 @@ int main()
         frame(u, questions[u * 2], 0, 0, 0);
         //delay(500);
         //clear_screen();
-    int locked;
-    char ans[90];
-    fgets(ans, 90, stdin);
-    printf("%d\n",ans[0]);
+    int locked=0;
+    char ans[1024];
+    fgets(ans, 1024, stdin);
+    printf("%s\n",ans);
     switch (ans[0])
     {
     case 97://for small letters also
@@ -123,7 +123,9 @@ int main()
         locked = 4;
         break;
     }
-
+    if(locked==0){
+        continue;
+    }
     if (locked == questions[2*u].answer)
     {
         printf("correct answer!!!");
