@@ -127,9 +127,39 @@ int main()
     case 108:
         clear_screen();
         frame(u, questions[u * 2], 1, 0, 0);
+        char ansl1[1024];
+        fgets(ansl1,1024,stdin);
+        switch (ansl1[0])
+        {
+        case 97:
+        case 65:
+            locked = 1;
+            break;
+        case 98:
+        case 66:
+            locked = 2;
+            break;
+        case 99:
+        case 67:
+            locked = 3;
+            break;
+        case 100:
+        case 68:
+            locked = 4;
+            break;
+        }
+        if (locked == questions[2*u].answer)
+        {
+            printf("correct answer!!!");
+            break;
+        }
+        else
+        {
+            printf("%d %d %d Better luck next time :(", locked, questions[2*u].answer, ans[0]);
+            return 0;
+        }
         u++;
         clear_screen();
-    break;
     }
     if(locked==0){
         continue;
@@ -322,29 +352,6 @@ int lifeline1(struct question questions,int quesno)
             }
             printf(COLOR_RESET);
         }
-    int locked=0;
-    char ans[1024];
-    fgets(ans, 1024, stdin);
-    printf("%s\n",ans);
-    switch (ans[0])
-    {
-    case 97://for small letters also
-    case 65:
-        locked = 1;
-        break;
-    case 98:
-    case 66:
-        locked = 2;
-        break;
-    case 99:
-    case 67:
-        locked = 3;
-        break;
-    case 100:
-    case 68:
-        locked = 4;
-        break;
-    }
 }
 int display_question_locked(int num, struct question questions, int selected)
 {
