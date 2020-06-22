@@ -74,7 +74,7 @@ void linecount(char *str, int width, int *num_lines);
 void formatques(char *str, int width, int);
 int formattexto(char *str1, char *str2, int width, int selected);
 void formatopt(char *str1, char *str2, int width, int selected);
-int lifeline1(struct question[],int quesno);
+int lifeline1(struct question,int quesno);
 /*int user_input(int);*/
 //NOTE - ques.txt currently have 30 questions (even numbered questions are the main ones and odd numbered ones are their alternates for flip the question lifeline)
 //main function still needs work
@@ -125,7 +125,8 @@ int main()
         break;
     case 76:
     case 108:
-        lifeline1(questions,u*2);
+        clear_screen();
+        frame(u, questions[u * 2], 1, 0, 0);
         u++;
         clear_screen();
     break;
@@ -181,7 +182,7 @@ int main()
     }
     return 0;
 }*/
-int lifeline1(struct question questions[],int quesno)
+int lifeline1(struct question questions,int quesno)
 {
     int i,random;
     char *ranopt,*spc;
@@ -189,108 +190,108 @@ int lifeline1(struct question questions[],int quesno)
     random=(rand()%(4))+1;
     if(random==1)
             {
-                ranopt=questions[quesno].option1;
+                ranopt=questions.option1;
             }
             else if(random==2)
             {
-                ranopt=questions[quesno].option2;
+                ranopt=questions.option2;
             }
             else if(random==3)
             {
-                ranopt=questions[quesno].option3;
+                ranopt=questions.option3;
             }
             else
-                ranopt=questions[quesno].option4;
-        while(random==questions[quesno].answer)
+                ranopt=questions.option4;
+        while(random==questions.answer)
         {
             random=(rand()%(4))+1;
             if(random==1)
             {
-                ranopt=questions[quesno].option1;
+                ranopt=questions.option1;
             }
             else if(random==2)
             {
-                ranopt=questions[quesno].option2;
+                ranopt=questions.option2;
             }
             else if(random==3)
             {
-                ranopt=questions[quesno].option3;
+                ranopt=questions.option3;
             }
             else
-                ranopt=questions[quesno].option4;
+                ranopt=questions.option4;
         }
-        if(questions[quesno].answer==1)
+        if(questions.answer==1)
         {
             printf("question %d-->\n", quesno + 1);
             printf(YELLOW);
-            formatques(questions[quesno].question, 100, 0);
+            formatques(questions.question, 100, 0);
             printf("\n");
             printf(COLOR_RESET MAGENTA);
             switch(random)
             {
                 case 2:
-                formatopt(questions[quesno].option1,ranopt, 30,0);
+                formatopt(questions.option1,ranopt, 30,0);
                 formatopt(spc,spc, 30,0);
                 break;
 
                 case 3:
-                formatopt(questions[quesno].option1,spc, 30,0);
+                formatopt(questions.option1,spc, 30,0);
                 formatopt(ranopt,spc, 30,0);
 
                 case 4:
-                formatopt(questions[quesno].option1,spc, 30,0);
+                formatopt(questions.option1,spc, 30,0);
                 formatopt(spc,ranopt, 30,0);
             }
             printf(COLOR_RESET);
         }
-        else if(questions[quesno].answer==2)
+        else if(questions.answer==2)
         {
             printf("question %d-->\n", quesno + 1);
             printf(YELLOW);
-            formatques(questions[quesno].question, 100, 0);
+            formatques(questions.question, 100, 0);
             printf("\n");
             printf(COLOR_RESET MAGENTA);
             switch(random)
             {
                 case 1:
-                formatopt(ranopt,questions[quesno].option2, 30,0);
+                formatopt(ranopt,questions.option2, 30,0);
                 formatopt(spc,spc, 30,0);
                 break;
 
                 case 3:
-                formatopt(spc,questions[quesno].option2, 30,0);
+                formatopt(spc,questions.option2, 30,0);
                 formatopt(ranopt,spc, 30,0);
                 break;
 
                 case 4:
-                formatopt(spc,questions[quesno].option2, 30,0);
+                formatopt(spc,questions.option2, 30,0);
                 formatopt(spc,ranopt, 30,0);
                 break;
             }
             printf(COLOR_RESET);
         }
-        else if(questions[quesno].answer==3)
+        else if(questions.answer==3)
         {
             printf("question %d-->\n", quesno + 1);
             printf(YELLOW);
-            formatques(questions[quesno].question, 100, 0);
+            formatques(questions.question, 100, 0);
             printf("\n");
             printf(COLOR_RESET MAGENTA);
             switch(random)
             {
                 case 2:
                 formatopt(spc,ranopt, 30,0);
-                formatopt(questions[quesno].option3,spc, 30,0);
+                formatopt(questions.option3,spc, 30,0);
                 break;
 
                 case 1:
                 formatopt(ranopt,spc, 30,0);
-                formatopt(questions[quesno].option3,spc, 30,0);
+                formatopt(questions.option3,spc, 30,0);
                 break;
 
                 case 4:
                 formatopt(spc,spc, 30,0);
-                formatopt(questions[quesno].option3,ranopt, 30,0);
+                formatopt(questions.option3,ranopt, 30,0);
                 break;
             }
             printf(COLOR_RESET);
@@ -299,24 +300,24 @@ int lifeline1(struct question questions[],int quesno)
         {
             printf("question %d-->\n", quesno + 1);
             printf(YELLOW);
-            formatques(questions[quesno].question, 100, 0);
+            formatques(questions.question, 100, 0);
             printf("\n");
             printf(COLOR_RESET MAGENTA);
             switch(random)
             {
                 case 1:
                 formatopt(ranopt,spc, 30,0);
-                formatopt(spc,questions[quesno].option4, 30,0);
+                formatopt(spc,questions.option4, 30,0);
                 break;
 
                 case 2:
                 formatopt(spc,ranopt, 30,0);
-                formatopt(spc,questions[quesno].option4, 30,0);
+                formatopt(spc,questions.option4, 30,0);
                 break;
 
                 case 3:
                 formatopt(spc,spc, 30,0);
-                formatopt(ranopt,questions[quesno].option4, 30,0);
+                formatopt(ranopt,questions.option4, 30,0);
                 break;
             }
             printf(COLOR_RESET);
@@ -453,7 +454,11 @@ int frame(int ques_num, struct question questions, int life1, int life2, int opt
     printf("_____________________________________________________________\n\n");
     money_board(ques_num, money);
     printf("You currently have %s\n", money);
-    if (option)
+    if(life1==1)
+    {
+        lifeline1(questions,ques_num);
+    }
+    else if (option)
     {
         display_question_locked(ques_num, questions, option);
     }
