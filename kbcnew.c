@@ -81,6 +81,7 @@ int lifeline1(struct question,int quesno);
 int main()
 {
     //getting rid of segmentation fault-->allocate memory
+    int check1=0;
     for (int i = 0; i < 30; i++)
     {
         questions[i].question = malloc(500);
@@ -125,6 +126,9 @@ int main()
         break;
     case 76:
     case 108:
+        check1++;
+        if(check1<=1)
+        {
         clear_screen();
         frame(u, questions[u * 2], 1, 0, 0);
         char ansl1[1024];
@@ -159,6 +163,8 @@ int main()
             return 0;
         }
         u++;
+        clear_screen();
+        }
         clear_screen();
     }
     if(locked==0){
