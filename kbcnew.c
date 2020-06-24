@@ -127,15 +127,14 @@ int gameloop()
         questions[i].option3 = malloc(500);
         questions[i].option4 = malloc(500);
     }
-    printf(RED "This text is RED!" COLOR_RESET "\n");
     int not_opened = read_questions(questions, 30, "ques.txt");
     if (not_opened)
         return 0;
     //pass the appropriate number in index of questions keeping in mind the alternates are at odd numbers
     //for reference --> frame(num,questions[2*num],life1,life1_check,life2_check,options_selected)
     int u=0;
-    int life1=0;
-    int life1_check=1;
+    int life1=0,locked=0, correct=0, wrong=0;
+    int life1_check=1, life2_check=1;
     int ques_num=2*u;
     while (u < 15)
     {
@@ -145,16 +144,12 @@ int gameloop()
         //printing every possible case
         //NOTE if selected != 0, correct and wrong must be 0 and if correct or wrong != 0 selected must be 0
         //NOTE correct and wrong must not be same , otherwise nothing will be printed
-        for (int correct=0;correct<5;correct++){
-            for (int wrong=0;wrong<5;wrong++){
-                    for (int selected=0;selected<5;selected++){
-                    frame(u,questions[ques_num],life1,life1_check,0,selected,correct,wrong);
-            }}}
+                    frame(u,questions[ques_num],life1,life1_check,life2_check,0,correct,wrong);
         life1=0;
+        locked=0;
         //delay(500);
         //clear_screen();
-        int locked=0;
-        printf("Enter A/a/B/b/C/c/D/d to choose! Enter l/L for 50:50\n");
+        printf("Enter A/a/B/b/C/c/D/d to choose! Enter l/L for 50:50 Enter f/F for Flip the question\n");
         char ans[1024];
         time_t start, end;
         int seconds;
@@ -215,6 +210,7 @@ int gameloop()
             break;
         case 76:
         case 108:
+            clear_screen();
             if(life1_check==1)
             {
                 life1=1;
@@ -230,10 +226,44 @@ int gameloop()
             }
         case 70:
         case 102:
-            //life2 code goes here(not complete
+            clear_screen();
+            if(life2_check==1)
+            {
+                ques_num=2*u+1;//gets the odd numbered(alternate question)
+                life2_check=0;
+                continue;
+            }
+            else
+            {
+                printf("You don't have flip the question lifeline left.\n");
+                delay(500);
+                continue;
+                break;
+            }
             continue;
             break;
+        default:
+            clear_screen();
+            printf("Invalid Input\n");
+            delay(500);
+            continue;
+        }
+        clear_screen();
+        frame(u,questions[ques_num],life1,life1_check,life2_check,locked,correct,wrong);
+        char ans2[1024];
+        fgets(ans2, 1024, stdin);//Takes input for locking the answer
 
+        switch(ans2[0])
+        {
+            case 121:
+            case 89:
+                clear_screen();
+                break;
+
+            case 110:
+            case 78:
+                clear_screen();
+                continue;
         }
         if(locked==0)
         {
@@ -241,11 +271,14 @@ int gameloop()
         }
         if (locked == questions[ques_num].answer)
         {
+            clear_screen();
+            frame(u,questions[ques_num],life1,life1_check,life2_check,0,locked,wrong);
             printf("correct answer!!!");
-            delay(500);
+            delay(1000);
         }
         else
         {
+            frame(u,questions[ques_num],life1,life1_check,life2_check,0,questions[ques_num].answer,locked);
             printf("%d %d %d Better luck next time :( \n", locked, questions[ques_num].answer, ans[0]);
             break;
         }
@@ -274,7 +307,6 @@ int gameloop()
 int lifeline1(struct question questions,int quesno)
 {
     int random;
-    char *ranopt;
     char *spc = "    ";
     // Use current time as seed for random generator
     srand(time(0));
@@ -369,7 +401,6 @@ int lifeline1(struct question questions,int quesno)
         printf(COLOR_RESET);
     }
 }
-
 int display_question_locked(int num, struct question questions, int selected, int correct, int wrong)
 {
     printf("question %d-->\n", num + 1);
@@ -540,6 +571,7 @@ int frame(int ques_num, struct question questions, int life1,int life1_check, in
         if (option_selected||correct||wrong)
         {
             display_question_locked(ques_num, questions, option_selected, correct, wrong);
+            printf("Enter Y/y to lock your answer or Enter N/n to go back to question\n");
         }
         else
         {
