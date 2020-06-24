@@ -377,123 +377,49 @@ int display_question_locked(int num, struct question questions, int selected, in
     formatques(questions.question, 71, 0);
     printf("\n");
     printf(COLOR_RESET);
-    if(correct==0&&wrong==0){
-    if (selected==1||selected==2)
+    if(correct==0&&wrong==0)
     {
-        formatopt(questions.option1, questions.option2, 30, selected,0,0);
+        if (selected==1||selected==2)
+        {
+            formatopt(questions.option1, questions.option2, 30, selected,0,0);
+        }
+        else
+            formatopt(questions.option1, questions.option2, 30,0,0,0);
+        if (selected==3||selected==4)
+        {
+            selected-=2;
+            formatopt(questions.option3, questions.option4, 30,selected,0,0);
+        }
+        else
+            formatopt(questions.option3, questions.option4, 30,0,0,0);
     }
     else
-        formatopt(questions.option1, questions.option2, 30,0,0,0);
-    if (selected==3||selected==4)
     {
-        selected-=2;
-        formatopt(questions.option3, questions.option4, 30,selected,0,0);
-    }
-    else
-        formatopt(questions.option3, questions.option4, 30,0,0,0);}
-    else{
-        switch(correct){
-            case 0:
-                switch(wrong){
-                    case 1:
-                        formatopt(questions.option1, questions.option2, 30,0,0,1);
-                        formatopt(questions.option3, questions.option4, 30,0,0,0);
-                        break;
-                    case 2:
-                        formatopt(questions.option1, questions.option2, 30,0,0,2);
-                        formatopt(questions.option3, questions.option4, 30,0,0,0);
-                        break;
-                    case 3:
-                        formatopt(questions.option1, questions.option2, 30,0,0,0);
-                        formatopt(questions.option3, questions.option4, 30,0,0,1);
-                        break;
-                    case 4:
-                        formatopt(questions.option1, questions.option2, 30,0,0,0);
-                        formatopt(questions.option3, questions.option4, 30,0,0,2);
-                        break;
-                }
-                break;
-            case 1:
-                switch(wrong){
-                    case 0:
-                        formatopt(questions.option1, questions.option2, 30,0,1,0);
-                        formatopt(questions.option3, questions.option4, 30,0,0,0);
-                        break;
-                    case 2:
-                        formatopt(questions.option1, questions.option2, 30,0,1,2);
-                        formatopt(questions.option3, questions.option4, 30,0,0,0);
-                        break;
-                    case 3:
-                        formatopt(questions.option1, questions.option2, 30,0,1,0);
-                        formatopt(questions.option3, questions.option4, 30,0,0,1);
-                        break;
-                    case 4:
-                        formatopt(questions.option1, questions.option2, 30,0,1,0);
-                        formatopt(questions.option3, questions.option4, 30,0,0,2);
-                        break;
-                }
-                break;
-            case 2:
-                switch(wrong){
-                    case 0:
-                        formatopt(questions.option1, questions.option2, 30,0,2,0);
-                        formatopt(questions.option3, questions.option4, 30,0,0,0);
-                        break;
-                    case 1:
-                        formatopt(questions.option1, questions.option2, 30,0,2,1);
-                        formatopt(questions.option3, questions.option4, 30,0,0,0);
-                        break;
-                    case 3:
-                        formatopt(questions.option1, questions.option2, 30,0,2,0);
-                        formatopt(questions.option3, questions.option4, 30,0,0,1);
-                        break;
-                    case 4:
-                        formatopt(questions.option1, questions.option2, 30,0,2,0);
-                        formatopt(questions.option3, questions.option4, 30,0,0,2);
-                        break;
-                }
-                break;
-            case 3:
-                switch(wrong){
-                    case 0:
-                        formatopt(questions.option1, questions.option2, 30,0,0,0);
-                        formatopt(questions.option3, questions.option4, 30,0,1,0);
-                        break;
-                    case 1:
-                        formatopt(questions.option1, questions.option2, 30,0,0,1);
-                        formatopt(questions.option3, questions.option4, 30,0,1,0);
-                        break;
-                    case 2:
-                        formatopt(questions.option1, questions.option2, 30,0,0,2);
-                        formatopt(questions.option3, questions.option4, 30,0,1,0);
-                        break;
-                    case 4:
-                        formatopt(questions.option1, questions.option2, 30,0,0,0);
-                        formatopt(questions.option3, questions.option4, 30,0,1,2);
-                        break;
-                }
-                break;
-            case 4:
-                switch(wrong){
-                    case 0:
-                        formatopt(questions.option1, questions.option2, 30,0,0,0);
-                        formatopt(questions.option3, questions.option4, 30,0,2,0);
-                        break;
-                    case 1:
-                        formatopt(questions.option1, questions.option2, 30,0,0,1);
-                        formatopt(questions.option3, questions.option4, 30,0,2,0);
-                        break;
-                    case 2:
-                        formatopt(questions.option1, questions.option2, 30,0,0,2);
-                        formatopt(questions.option3, questions.option4, 30,0,2,0);
-                        break;
-                    case 3:
-                        formatopt(questions.option1, questions.option2, 30,0,0,0);
-                        formatopt(questions.option3, questions.option4, 30,0,2,1);
-                        break;
-                }
-                break;
-
+        if (correct<=2)
+        {
+            if(wrong<=2)
+            {
+                formatopt(questions.option1, questions.option2, 30,0,correct,wrong);
+                formatopt(questions.option3, questions.option4, 30,0,0,0);
+            }
+            else
+            {
+                formatopt(questions.option1, questions.option2, 30,0,correct,0);
+                formatopt(questions.option3, questions.option4, 30,0,0,wrong-2);
+            }
+        }
+        else
+        {
+            if(wrong<=2)
+            {
+                formatopt(questions.option1, questions.option2, 30,0,0,wrong);
+                formatopt(questions.option3, questions.option4, 30,0,correct-2,0);
+            }
+            else
+            {
+                formatopt(questions.option1, questions.option2, 30,0,0,0);
+                formatopt(questions.option3, questions.option4, 30,0,correct-2,wrong-2);
+            }
         }
     }
     printf(COLOR_RESET);
