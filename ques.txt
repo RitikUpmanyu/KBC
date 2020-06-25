@@ -18,10 +18,10 @@ The last Mughal Emperor was?;A. Akbar;B. Bahadur Shah;C. Aurangjeb;D. Shah Jhaha
 which dynasty did King Ashoka belong to?;A. Gupta Dynasty;B. Maurya Dynasty;C. Kushan Dynasty;D. Maratha Dynasty;2
 What kind of errors can be pointed out by the compiler?;A. Syntax error;B. Symantic error;C. Logical error;D. Internal error;1
 Which consists of two plates separated by a dielectric and can store a charge?;A. Inductor;B. Transistor;C. Capacitor;D. Relay;3
-Computers which offer information are called .......... and those which seek information are called ...........-;A.  Servers, clients;B. Clients, servers;C. Applications, complex soft-wares;D. System software, application software;1
+Computers which offer information are called .......... and those which seek information are called ...........-;A.  Servers, clients;B. Clients, servers;C. ASICS;D. System software;1
 Email addresses in ............. field are visible to all recipients. Email addresses in ........... field are visible to only the recipient;A. Bcc, To;B. Cc and Bcc, To;C. To and Bcp, Cc;D. To and Cc, Bcc;4
 Some animals bounce sound waves off an object to detect their location, this is known as echolocation. Which of the following animals does not use echolocation?;A. Bat;B. Dolphin;C. Shrew;D. Shark;4
-Elephants can hear sounds between one and 20,000 hertz. This means they can hear?;A. Higher sound frequencies than humans;B.  Lower sound frequencies than humans;C. The same sound frequency range as humans;D. A smaller sound frequency range than humans;2
+Elephants can hear sounds between one and 20,000 hertz. This means they can hear?;A.Frequency higher than human;B.Frequency lower than human;C. Same frequencies as humans;D. Narrow range than humans;2
 The largest river basin in india is of the river?;A. Brahmaputra;B. Godavari;C. Ganga;D. Krishna;3
 Which of the following is the largest port in India?;A. Mumbai;B. Chennai;C. Kolkata;D. Vishakhapatnam;1
 The most populous city in the world is?;A. Paris;B. Delhi;C. Tokyo;D. London;3
