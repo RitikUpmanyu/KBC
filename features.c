@@ -34,16 +34,15 @@ struct question questions[30];
 
 int lifeline1(struct question questions,int quesno, int random)
 {
-    char *ranopt;
     char *spc = "    ";
-    // Use current time as seed for random generator
+    // Printing the question
     printf("question %d-->\n", quesno + 1);
     printf(YELLOW);
     formatques(questions.question, 71, 0);
     printf("\n");
     if(questions.answer==1)
     {
-        switch(random)
+        switch(random)//printing the correct option and a randomly selected one.
         {
         case 2:
             formatopt(questions.option1, questions.option2, 30,0,0,0);
@@ -113,10 +112,9 @@ int lifeline1(struct question questions,int quesno, int random)
             break;
         }
     }
-    printf(COLOR_RESET);
     return 0;
 }
-int display_question(int num, struct question questions)
+int display_question(int num, struct question questions)//used for displaying the question and it's options
 {
     printf("question %d-->\n", num + 1);
     printf(YELLOW);
@@ -175,6 +173,7 @@ void moneyfield(int ques_num_on, int ques_num_field, char **moneyarr, char *mone
     }
 }
 
+//used for printing the money board and the postion of the player at the prize amount.
 int money_board(int ques_num, char money[15],char current_money[15])
 {
     char *moneyarr[30] = {"Rs. 5,000", "1   <~> Rs. 5,000",
@@ -200,6 +199,9 @@ int money_board(int ques_num, char money[15],char current_money[15])
     return 0;
 }
 
+//Used for displaying the question state when the user has entered an answer
+//Color coding is done to indicate the seleted option
+//Switch conditions are used to facilitate the selecting functionality when 50-50 lifeline is taken
 int display_question_locked(int num, struct question questions, int selected, int correct, int wrong, int life1random)
 {
     char *spc = "    ";

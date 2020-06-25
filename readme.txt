@@ -5,9 +5,9 @@ Asignment question attempted: 1
 #############################################################
 Team:
 1. 2019B3PS0517P Ritik Upmanyu
-2. 2019---------P Kush Ghambhir
+2. 2019B1PS1040P Kush Gambhir
 #############################################################
-Description of how to run the code and observe the output: (This is just a sample. You are expected to write in much more detail!!!)
+Description of how to run the code and observe the output:
 1. The exe is called 2019B3PS517_P3.exe. It is a console Application. 
 2. The input files are -> 1. questions.txt used for reading questions and options
 		    2. features.c used for displaying questions, options, money and implementing lifelines.
@@ -25,5 +25,5 @@ Known limitations of the code (if you have not been able to completely/fully imp
 #############################################################
 Contributions of the team members:
 Ritik Upmanyu did reading, fomatting and displaying questions, options and money and testing.
-Kush Ghambhir did Both lifelines and also worked on taking User-Input and also helped in testing.
+Kush Gambhir did Both lifelines and also worked on taking User-Input and also helped in testing.
 #############################################################

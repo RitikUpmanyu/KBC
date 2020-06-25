@@ -313,7 +313,8 @@ int formattexto(char *str1, char *str2, int width, int selected, int correct ,in
     printf(COLOR_RESET);
     return 0;
 }
-
+// used to display the options inside boxes
+// also gives color to selected, correct, and wrong option
 void formatopt(char *str1, char *str2, int width, int selected,int correct, int wrong)
 {
     int lines1 = 0;

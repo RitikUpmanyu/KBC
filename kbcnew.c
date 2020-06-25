@@ -118,7 +118,7 @@ int gameloop()
         {
             printf("Enter [f]/[F] for Flip-The-Question");
         }
-        printf(CYAN"\nEnter [q]\[Q] to quit\n"COLOR_RESET);
+        printf(CYAN"\nEnter [q]/[Q] to quit\n"COLOR_RESET);
         char ans[1024];
         time_t start, end;
         int seconds;
