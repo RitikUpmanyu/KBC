@@ -28,12 +28,12 @@ const char* os = "unknown";
 // these functions are declared here and defined at the end or in different files
 void clear_screen();
 void delay(int trigger);
-int gameloop();
+int gameloop(int count);
 char* frame(int, struct question, int, int, int,int,int,int,int);
 int read_questions(struct question[], size_t, char[]); //this function takes 3 arguments array of stucts, size of that array, and name of the file where questions are stored
 //these functions are inside features.c here only for reference
-int display_question(int, struct question);
-int display_question_locked(int, struct question,int,int,int, int);
+void display_options(struct question questions,int space1, int space2, int selected, int green, int red);
+int display_question(int, struct question,int,int,int, int);
 int lifeline1(struct question,int quesno, int random);
 int money_board(int, char[15],char[15]);
 void moneyfield(int, int, char **, char *, char *);            // this is a helper function for moneyboard
@@ -49,10 +49,23 @@ void formatopt(char *str1, char *str2, int width, int selected, int correct, int
 //main function still needs work
 int main()
 {
-    gameloop();
+    int count=1;//for counting the number of times the program has been run, so that we can give alternate questions
+    FILE *fp_count;
+    fp_count = fopen("count.txt","w+");
+    if(fp_count == NULL)
+    {
+        fprintf(fp_count,"%d",count);
+        fclose(fp_count);
+    }
+    else
+    {
+        fscanf(fp_count,"%d",&count);
+        fclose(fp_count);
+    }
+    gameloop(count);//main gameloop
     return 0;
 }
-int gameloop()
+int gameloop(int count)
 {
 //allocate memory for preventing segmentation fault
     for (int i = 0; i < 30; i++)
@@ -65,16 +78,22 @@ int gameloop()
     }
     //reading questions
     int not_opened = read_questions(questions, 30, "questions.txt");
-    if (not_opened){
+    if (not_opened)
+    {
         printf(RED"questions.txt not accessible\n"COLOR_RESET);
-        return 0;}
+        return 0;
+    }
     //pass the appropriate number in index of questions keeping in mind the alternates are at odd numbers
     //for reference --> frame(num,questions[2*num],life1,life1_check,life2_check,options_selected)
     int ques_num=0;
+    int ques_index;
     //life1 is  50-50 and life2 is flip-the-question
     int life1=0, correct=0, wrong=0;
     int life1_check=1, life2_check=1;
-    int ques_index=2*ques_num;//because there are 30 questions including alternates and we only have to display 15 of them
+    if(count%2==0)
+        ques_index=2*ques_num;
+    else
+        ques_index=2*ques_num+1;//because there are 30 questions including alternates and we only have to display 15 of them
     int iterator=-1;//for checking that whether we are on next question or just continuing the loop;
     int random;// for choosing which option gets displayed besides the correct one in 50=50
     while (ques_num < 15)
@@ -118,7 +137,7 @@ int gameloop()
         {
             printf("Enter [f]/[F] for Flip-The-Question");
         }
-        printf(CYAN"\nEnter [q]\[Q] to quit\n"COLOR_RESET);
+        printf(CYAN"\nEnter [q]/[Q] to quit\n"COLOR_RESET);
         char ans[1024];
         time_t start, end;
         int seconds;
@@ -173,7 +192,10 @@ int gameloop()
             clear_screen();
             if(life2_check==1)
             {
-                ques_index=2*ques_num+1;//gets the odd numbered(alternate question)
+                if(count%2==0)//flip the the question will be based on count
+                    ques_index=2*ques_num+1;
+                else
+                    ques_index=2*ques_num;
                 life2_check=0;//making sure that it doesn't get used again
                 continue;
             }
@@ -270,7 +292,10 @@ int gameloop()
         }
         ques_num++;
         iterator=ques_num-1;//so that when loop starts over then iterator becomes equal to ques_num
-        ques_index=2*ques_num;
+        if(count%2==0)
+            ques_index=2*ques_num;
+        else
+            ques_index=2*ques_num+1;
         clear_screen();
     }
     //////////////////////////////// PLAY AGAIN OR EXIT GAME LOGIC/////////////////////////////////////////////////////
@@ -283,10 +308,15 @@ int gameloop()
             printf(GREEN"CONGRATULATIONS YOU WON 7 CRORE !!! use them well ;)\n"COLOR_RESET);
         }
         printf(CYAN"press [p]/[P] to play again [q]/[Q] to quit\n"COLOR_RESET);
+        FILE *fp_counter;
+        fp_counter = fopen("count.txt","w+");
+        fprintf(fp_counter,"%d",++count);
+        fclose(fp_counter);
+        fp_counter=NULL;
         fgets(again, 1024, stdin);
         if(again[0]==80 || again[0]==112)
         {
-            gameloop();
+            gameloop(count);
         }
         else if(again[0]==81 || again[0]==113)
         {
@@ -350,28 +380,11 @@ char* frame(int ques_num, struct question questions, int life1,int life1_check, 
     else
         printf("Rs. 1,00,00,000\n");
     printf(COLOR_RESET);
-    if(life1==1)//i.e. 50-50
+    if(life1==0)//i.e. 50-50
     {
-        if(option_selected==0&&correct==0&&wrong==0)
-        {
-            lifeline1(questions, ques_num, random);//prints normal 50-50 style options
-        }
-        else
-        {
-            display_question_locked(ques_num, questions, option_selected, correct, wrong, random);//colored options for 50-50
-        }
+        random=0;
     }
-    else
-    {
-        if (option_selected||correct||wrong)
-        {
-            display_question_locked(ques_num, questions, option_selected, correct, wrong, 0);//colored options
-        }
-        else
-        {
-            display_question(ques_num, questions);//normal options
-        }
-    }
+    display_question(ques_num, questions, option_selected, correct, wrong, random);
     if(ques_num<4&&correct==0)//telling user about the timer
     {
         printf(RED"You have 30s to answer this question!!\n"COLOR_RESET);
@@ -439,6 +452,8 @@ int read_questions(struct question questions[], size_t len, char ques_file[])
     }
     fclose(fp);//closing file
     free(buf);
+    fp=NULL;
+    buf=NULL;
     return 0;
 }
 //provide agrument in miliseconds

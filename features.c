@@ -32,102 +32,6 @@ struct question
 };
 struct question questions[30];
 
-int lifeline1(struct question questions,int quesno, int random)
-{
-    char *ranopt;
-    char *spc = "    ";
-    // Use current time as seed for random generator
-    printf("question %d-->\n", quesno + 1);
-    printf(YELLOW);
-    formatques(questions.question, 71, 0);
-    printf("\n");
-    if(questions.answer==1)
-    {
-        switch(random)
-        {
-        case 2:
-            formatopt(questions.option1, questions.option2, 30,0,0,0);
-            formatopt(spc, spc, 30,0,0,0);
-            break;
-        case 3:
-            formatopt(questions.option1, spc, 30,0,0,0);
-            formatopt(questions.option3, spc, 30,0,0,0);
-            break;
-        case 4:
-            formatopt(questions.option1, spc, 30,0,0,0);
-            formatopt(spc, questions.option4, 30,0,0,0);
-            break;
-        }
-    }
-    else if(questions.answer==2)
-    {
-        switch(random)
-        {
-        case 1:
-            formatopt(questions.option1, questions.option2, 30,0,0,0);
-            formatopt(spc, spc, 30,0,0,0);
-            break;
-        case 3:
-            formatopt(spc, questions.option2, 30,0,0,0);
-            formatopt(questions.option3, spc, 30,0,0,0);
-            break;
-        case 4:
-            formatopt(spc, questions.option2, 30,0,0,0);
-            formatopt(spc, questions.option4, 30,0,0,0);
-            break;
-        }
-    }
-    else if(questions.answer==3)
-    {
-        switch(random)
-        {
-        case 1:
-            formatopt(questions.option1, spc, 30,0,0,0);
-            formatopt(questions.option3, spc, 30,0,0,0);
-            break;
-        case 2:
-            formatopt(spc, questions.option2, 30,0,0,0);
-            formatopt(questions.option3, spc, 30,0,0,0);
-            break;
-        case 4:
-            formatopt(spc, spc, 30,0,0,0);
-            formatopt(questions.option3, questions.option4, 30,0,0,0);
-            break;
-        }
-    }
-    else
-    {
-        switch(random)
-        {
-        case 1:
-            formatopt(questions.option1, spc, 30,0,0,0);
-            formatopt(spc, questions.option4, 30,0,0,0);
-            break;
-        case 2:
-            formatopt(spc, questions.option2, 30,0,0,0);
-            formatopt(spc, questions.option4, 30,0,0,0);
-            break;
-        case 3:
-            formatopt(spc, spc, 30,0,0,0);
-            formatopt(questions.option3, questions.option4, 30,0,0,0);
-            break;
-        }
-    }
-    printf(COLOR_RESET);
-    return 0;
-}
-int display_question(int num, struct question questions)
-{
-    printf("question %d-->\n", num + 1);
-    printf(YELLOW);
-    formatques(questions.question, 71, 0);
-    printf("\n");
-    printf(COLOR_RESET MAGENTA);
-    formatopt(questions.option1, questions.option2, 30,0,0,0);
-    formatopt(questions.option3, questions.option4, 30,0,0,0);
-    printf(COLOR_RESET);
-    return 0;
-}
 
 //just a helper function for moneyboard
 void moneyfield(int ques_num_on, int ques_num_field, char **moneyarr, char *money,char *current_money)
@@ -139,8 +43,10 @@ void moneyfield(int ques_num_on, int ques_num_field, char **moneyarr, char *mone
         else
             QUES_POINTER;
         strcpy(money, moneyarr[ques_num_field * 2]);
-        if(ques_num_field!=0)strcpy(current_money, moneyarr[(ques_num_field * 2)-2]);
-        else strcpy(current_money,"Nothing");
+        if(ques_num_field!=0)
+            strcpy(current_money, moneyarr[(ques_num_field * 2)-2]);
+        else
+            strcpy(current_money,"Nothing");
     }
     SPACE
     if (ques_num_field == ques_num_on)
@@ -175,6 +81,7 @@ void moneyfield(int ques_num_on, int ques_num_field, char **moneyarr, char *mone
     }
 }
 
+//used for printing the money board and the postion of the player at the prize amount.
 int money_board(int ques_num, char money[15],char current_money[15])
 {
     char *moneyarr[30] = {"Rs. 5,000", "1   <~> Rs. 5,000",
@@ -183,7 +90,7 @@ int money_board(int ques_num, char money[15],char current_money[15])
                           "Rs. 40,000", "4   <~> Rs. 40,000",
                           "Rs. 80,000", "5   <~> Rs. 80,000",
                           "Rs. 1,60,000", "6   <~> Rs. 1,60,000",
-                          "Rs. 3,20,000", "7   <~> Rs. 3,20,000",
+                          "Rs. 6,40,000", "7   <~> Rs. 6,40,000",
                           "Rs. 3,20,000", "8   <~> Rs. 3,20,000",
                           "Rs. 12,50,000", "9   <~> Rs. 12,50,000",
                           "Rs. 25,00,000", "10  <~> Rs. 25,00,000",
@@ -199,8 +106,83 @@ int money_board(int ques_num, char money[15],char current_money[15])
     }
     return 0;
 }
-
-int display_question_locked(int num, struct question questions, int selected, int correct, int wrong, int life1random)
+//function to display options
+void display_options(struct question questions,int space1, int space2, int selected, int green, int red)
+{
+    int green1=0,green2=0,red1=0,red2=0;
+    char *spc=" ";
+    char *option1=questions.option1;
+    char *option2=questions.option2;
+    char *option3=questions.option3;
+    char *option4=questions.option4;
+    //making spaces for 50-50
+    switch(space1)
+    {
+        case 1:
+            option1=spc;
+            break;
+        case 2:
+            option2=spc;
+            break;
+        case 3:
+            option3=spc;
+            break;
+        case 4:
+            option4=spc;
+            break;
+    }
+    switch(space2)
+    {
+        case 1:
+            option1=spc;
+            break;
+        case 2:
+            option2=spc;
+            break;
+        case 3:
+            option3=spc;
+            break;
+        case 4:
+            option4=spc;
+            break;
+    }
+    if(selected)
+    {
+        if(selected<=2)
+        {
+            formatopt(option1,option2,30,selected,0,0);
+            formatopt(option3,option4,30,0,0,0);
+        }
+        else if(selected>2)
+        {
+            selected-=2;
+            formatopt(option1,option2,30,0,0,0);
+            formatopt(option3,option4,30,selected,0,0);
+        }
+    }
+    else
+    {
+        if(green<=2)
+        {
+            green1=green;
+        }else {
+            green-=2;
+            green2=green;
+        }
+        if(red<=2)
+        {
+            red1=red;
+        }else {
+            red-=2;
+            red2=red;
+        }
+        formatopt(option1,option2,30,0,green1,red1);
+        formatopt(option3,option4,30,0,green2,red2);
+    }
+}
+//Used for displaying the question state when the user has entered an answer
+//Color coding is done to indicate the seleted option
+int display_question(int num, struct question questions, int selected, int correct, int wrong, int life1random)
 {
     char *spc = "    ";
     printf("question %d-->\n", num + 1);
@@ -210,406 +192,23 @@ int display_question_locked(int num, struct question questions, int selected, in
     printf(COLOR_RESET);
     if(life1random==0)
     {
-        if(correct==0&&wrong==0)
-        {
-            if (selected==1||selected==2)
-            {
-                formatopt(questions.option1, questions.option2, 30, selected,0,0);
-            }
-            else
-                formatopt(questions.option1, questions.option2, 30,0,0,0);
-            if (selected==3||selected==4)
-            {
-                selected-=2;
-                formatopt(questions.option3, questions.option4, 30,selected,0,0);
-            }
-            else
-                formatopt(questions.option3, questions.option4, 30,0,0,0);
-        }
-        else
-        {
-            if (correct<=2)
-            {
-                if(wrong<=2)
-                {
-                    formatopt(questions.option1, questions.option2, 30,0,correct,wrong);
-                    formatopt(questions.option3, questions.option4, 30,0,0,0);
-                }
-                else
-                {
-                    formatopt(questions.option1, questions.option2, 30,0,correct,0);
-                    formatopt(questions.option3, questions.option4, 30,0,0,wrong-2);
-                }
-            }
-            else
-            {
-                if(wrong<=2)
-                {
-                    formatopt(questions.option1, questions.option2, 30,0,0,wrong);
-                    formatopt(questions.option3, questions.option4, 30,0,correct-2,0);
-                }
-                else
-                {
-                    formatopt(questions.option1, questions.option2, 30,0,0,0);
-                    formatopt(questions.option3, questions.option4, 30,0,correct-2,wrong-2);
-                }
-            }
-        }
-        printf(COLOR_RESET);
+        display_options(questions,0,0,selected, correct, wrong);
     }
     else
     {
-        if(correct==0&&wrong==0)
+        int space1, space2;
+        for(int i=1; i<=4; i++)
         {
-            if(questions.answer==1)
-            {
-                switch(life1random)
-                {
-                case 2:
-                    if(selected==questions.answer)
-                    {
-                        formatopt(questions.option1, questions.option2, 30,selected,0,0);
-                        formatopt(spc, spc, 30,0,0,0);
-                    }
-                    else if (selected==life1random)
-                    {
-                        formatopt(questions.option1, questions.option2, 30,selected,0,0);
-                        formatopt(spc, spc, 30,0,0,0);
-                    }
-                    break;
-                case 3:
-                    if(selected==questions.answer)
-                    {
-                        formatopt(questions.option1, spc, 30,selected,0,0);
-                        formatopt(questions.option3, spc, 30,0,0,0);
-                    }
-                    else if (selected==life1random)
-                    {
-                        formatopt(questions.option1, spc, 30,0,0,0);
-                        formatopt(questions.option3, spc, 30,selected-2,0,0);
-                    }
-                    break;
-
-                case 4:
-                    if(selected==questions.answer)
-                    {
-                        formatopt(questions.option1, spc, 30,selected,0,0);
-                        formatopt(spc, questions.option4, 30,0,0,0);
-                    }
-                    else if (selected==life1random)
-                    {
-                        formatopt(questions.option1, spc, 30,0,0,0);
-                        formatopt(spc, questions.option4, 30,selected-2,0,0);
-                    }
-                    break;
-                }
-            }
-            else if(questions.answer==2)
-            {
-                switch(life1random)
-                {
-                case 1:
-                    if(selected==questions.answer)
-                    {
-                        formatopt(questions.option1, questions.option2, 30,selected,0,0);
-                        formatopt(spc, spc, 30,0,0,0);
-                    }
-                    else if (selected==life1random)
-                    {
-                        formatopt(questions.option1, questions.option2, 30,selected,0,0);
-                        formatopt(spc, spc, 30,0,0,0);
-                    }
-                    break;
-                case 3:
-                    if(selected==questions.answer)
-                    {
-                        formatopt(spc, questions.option2, 30,selected,0,0);
-                        formatopt(questions.option3, spc, 30,0,0,0);
-                    }
-                    else if (selected==life1random)
-                    {
-                        formatopt(spc, questions.option2, 30,0,0,0);
-                        formatopt(questions.option3, spc, 30,selected-2,0,0);
-                    }
-                    break;
-
-                case 4:
-                    if(selected==questions.answer)
-                    {
-                        formatopt(spc, questions.option2, 30,selected,0,0);
-                        formatopt(spc, questions.option4, 30,0,0,0);
-                    }
-                    else if (selected==life1random)
-                    {
-                        formatopt(spc, questions.option2, 30,0,0,0);
-                        formatopt(spc, questions.option4, 30,selected-2,0,0);
-                    }
-                    break;
-                }
-            }
-            else if(questions.answer==3)
-            {
-                switch(life1random)
-                {
-                case 1:
-                    if(selected==questions.answer)
-                    {
-                        formatopt(questions.option1, spc, 30,0,0,0);
-                        formatopt(questions.option3, spc, 30,selected-2,0,0);
-                    }
-                    else if (selected==life1random)
-                    {
-                        formatopt(questions.option1, spc, 30,selected,0,0);
-                        formatopt(questions.option3, spc, 30,0,0,0);
-                    }
-                    break;
-                case 2:
-                    if(selected==questions.answer)
-                    {
-                        formatopt(spc, questions.option2, 30,0,0,0);
-                        formatopt(questions.option3, spc, 30,selected-2,0,0);
-                    }
-                    else if (selected==life1random)
-                    {
-                        formatopt(spc, questions.option2, 30,selected,0,0);
-                        formatopt(questions.option3, spc, 30,0,0,0);
-                    }
-                    break;
-
-                case 4:
-                    if(selected==questions.answer)
-                    {
-                        formatopt(spc, spc, 30,0,0,0);
-                        formatopt(questions.option3, questions.option4, 30,selected-2,0,0);
-                    }
-                    else if (selected==life1random)
-                    {
-                        formatopt(spc, spc, 30,0,0,0);
-                        formatopt(questions.option3, questions.option4, 30,selected-2,0,0);
-                    }
-                    break;
-                }
-            }
-            else
-            {
-                switch(life1random)
-                {
-                case 1:
-                    if(selected==questions.answer)
-                    {
-                        formatopt(questions.option1, spc, 30,0,0,0);
-                        formatopt(spc, questions.option4, 30,selected-2,0,0);
-                    }
-                    else if (selected==life1random)
-                    {
-                        formatopt(questions.option1, spc, 30,selected,0,0);
-                        formatopt(spc, questions.option4, 30,0,0,0);
-                    }
-                    break;
-                case 2:
-                    if(selected==questions.answer)
-                    {
-                        formatopt(spc, questions.option2, 30,0,0,0);
-                        formatopt(spc, questions.option4, 30,selected-2,0,0);
-                    }
-                    else if (selected==life1random)
-                    {
-                        formatopt(spc, questions.option2, 30,selected,0,0);
-                        formatopt(spc, questions.option4, 30,0,0,0);
-                    }
-                    break;
-
-                case 3:
-                    if(selected==questions.answer)
-                    {
-                        formatopt(spc, spc, 30,0,0,0);
-                        formatopt(questions.option3, questions.option4, 30,selected-2,0,0);
-                    }
-                    else if (selected==life1random)
-                    {
-                        formatopt(spc, spc, 30,0,0,0);
-                        formatopt(questions.option3, questions.option4, 30,selected-2,0,0);
-                    }
-                    break;
-                }
-            }
+            if(i!=questions.answer && i!=life1random)
+                space1=i;
         }
-        else
+        for(int j=1; j<=4; j++)
         {
-            if(questions.answer==1)
-            {
-                switch(life1random)
-                {
-                case 2:
-                    if(wrong)
-                    {
-                        formatopt(questions.option1, questions.option2, 30,0,correct,wrong);
-                        formatopt(spc, spc, 30,0,0,0);
-                    }
-                    else
-                    {
-                        formatopt(questions.option1, questions.option2, 30,0,correct,0);
-                        formatopt(spc, spc, 30,0,0,0);
-                    }
-                    break;
-                case 3:
-                    if(wrong)
-                    {
-                        formatopt(questions.option1, spc, 30,0,correct,0);
-                        formatopt(questions.option3, spc, 30,0,0,wrong-2);
-                    }
-                    else
-                    {
-                        formatopt(questions.option1, spc, 30,correct,0,0);
-                        formatopt(questions.option3, spc, 30,0,0,0);
-                    }
-                    break;
-
-                case 4:
-                    if(wrong)
-                    {
-                        formatopt(questions.option1, spc, 30,0,correct,0);
-                        formatopt(spc, questions.option4, 30,0,0,wrong-2);
-                    }
-                    else
-                    {
-                        formatopt(questions.option1, spc, 30,0,correct,0);
-                        formatopt(spc, questions.option4, 30,0,0,0);
-                    }
-                    break;
-                }
-            }
-            else if(questions.answer==2)
-            {
-                switch(life1random)
-                {
-                case 1:
-                    if(wrong)
-                    {
-                        formatopt(questions.option1, questions.option2, 30,0,correct,wrong);
-                        formatopt(spc, spc, 30,0,0,0);
-                    }
-                    else
-                    {
-                        formatopt(questions.option1, questions.option2, 30,0,correct,0);
-                        formatopt(spc, spc, 30,0,0,0);
-                    }
-                    break;
-                case 3:
-                    if(wrong)
-                    {
-                        formatopt(spc, questions.option2, 30,0,correct,0);
-                        formatopt(questions.option3, spc, 30,0,0,wrong-2);
-                    }
-                    else
-                    {
-                        formatopt(spc, questions.option2, 30,0,correct,0);
-                        formatopt(questions.option3, spc, 30,0,0,0);
-                    }
-                    break;
-
-                case 4:
-                    if(wrong)
-                    {
-                        formatopt(spc, questions.option2, 30,0,correct,0);
-                        formatopt(spc, questions.option4, 30,0,0,wrong-2);
-                    }
-                    else
-                    {
-                        formatopt(spc, questions.option2, 30,0,correct,0);
-                        formatopt(spc, questions.option4, 30,0,0,0);
-                    }
-                    break;
-                }
-            }
-            else if(questions.answer==3)
-            {
-                switch(life1random)
-                {
-                case 1:
-                    if(wrong)
-                    {
-                        formatopt(questions.option1, spc, 30,0,0,wrong);
-                        formatopt(questions.option3, spc, 30,0,correct-2,0);
-                    }
-                    else
-                    {
-                        formatopt(questions.option1, spc, 30,0,0,0);
-                        formatopt(questions.option3, spc, 30,0,correct-2,0);
-                    }
-                    break;
-                case 2:
-                    if(wrong)
-                    {
-                        formatopt(spc, questions.option2, 30,0,0,wrong);
-                        formatopt(questions.option3, spc, 30,0,correct-2,0);
-                    }
-                    else
-                    {
-                        formatopt(spc, questions.option2, 30,0,0,0);
-                        formatopt(questions.option3, spc, 30,0,correct-2,0);
-                    }
-                    break;
-
-                case 4:
-                    if(wrong)
-                    {
-                        formatopt(spc, spc, 30,0,0,0);
-                        formatopt(questions.option3, questions.option4, 30,0,correct-2,wrong-2);
-                    }
-                    else
-                    {
-                        formatopt(spc, spc, 30,0,0,0);
-                        formatopt(questions.option3, questions.option4, 30,0,correct-2,0);
-                    }
-                    break;
-                }
-            }
-            else
-            {
-                switch(life1random)
-                {
-                case 1:
-                    if(wrong)
-                    {
-                        formatopt(questions.option1, spc, 30,0,0,wrong);
-                        formatopt(spc, questions.option4, 30,0,correct-2,0);
-                    }
-                    else
-                    {
-                        formatopt(questions.option1, spc, 30,0,0,0);
-                        formatopt(spc, questions.option4, 30,0,correct-2,0);
-                    }
-                    break;
-                case 2:
-                    if(wrong)
-                    {
-                        formatopt(spc, questions.option2, 30,0,0,wrong);
-                        formatopt(spc, questions.option4, 30,0,correct-2,0);
-                    }
-                    else
-                    {
-                        formatopt(spc, questions.option2, 30,0,0,0);
-                        formatopt(spc, questions.option4, 30,0,correct-2,0);
-                    }
-                    break;
-
-                case 3:
-                    if(wrong)
-                    {
-                        formatopt(spc, spc, 30,0,0,0);
-                        formatopt(questions.option3, questions.option4, 30,0,correct-2,wrong-2);
-                    }
-                    else
-                    {
-                        formatopt(spc, spc, 30,0,0,0);
-                        formatopt(questions.option3, questions.option4, 30,0,correct-2,0);
-                    }
-                    break;
-                }
-            }
+            if(j!=questions.answer && j!=life1random && j!=space1)
+                space2=j;
         }
-        printf(COLOR_RESET);
+        display_options(questions,space1,space2,selected, correct, wrong);
     }
     return 0;
 }
+
