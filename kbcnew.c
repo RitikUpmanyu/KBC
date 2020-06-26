@@ -28,7 +28,7 @@ const char* os = "unknown";
 // these functions are declared here and defined at the end or in different files
 void clear_screen();
 void delay(int trigger);
-int gameloop(int count);
+int gameloop();
 char* frame(int, struct question, int, int, int,int,int,int,int);
 int read_questions(struct question[], size_t, char[]); //this function takes 3 arguments array of stucts, size of that array, and name of the file where questions are stored
 //these functions are inside features.c here only for reference
@@ -49,23 +49,10 @@ void formatopt(char *str1, char *str2, int width, int selected, int correct, int
 //main function still needs work
 int main()
 {
-    int count=1;//for counting the number of times the program has been run, so that we can give alternate questions
-    FILE *fp_count;
-    fp_count = fopen("count.txt","w+");
-    if(fp_count == NULL)
-    {
-        fprintf(fp_count,"%d",count);
-        fclose(fp_count);
-    }
-    else
-    {
-        fscanf(fp_count,"%d",&count);
-        fclose(fp_count);
-    }
-    gameloop(count);//main gameloop
+    gameloop();
     return 0;
 }
-int gameloop(int count)
+int gameloop()
 {
 //allocate memory for preventing segmentation fault
     for (int i = 0; i < 30; i++)
@@ -78,22 +65,16 @@ int gameloop(int count)
     }
     //reading questions
     int not_opened = read_questions(questions, 30, "questions.txt");
-    if (not_opened)
-    {
+    if (not_opened){
         printf(RED"questions.txt not accessible\n"COLOR_RESET);
-        return 0;
-    }
+        return 0;}
     //pass the appropriate number in index of questions keeping in mind the alternates are at odd numbers
     //for reference --> frame(num,questions[2*num],life1,life1_check,life2_check,options_selected)
     int ques_num=0;
-    int ques_index;
     //life1 is  50-50 and life2 is flip-the-question
     int life1=0, correct=0, wrong=0;
     int life1_check=1, life2_check=1;
-    if(count%2==0)
-        ques_index=2*ques_num;
-    else
-        ques_index=2*ques_num+1;//because there are 30 questions including alternates and we only have to display 15 of them
+    int ques_index=2*ques_num;//because there are 30 questions including alternates and we only have to display 15 of them
     int iterator=-1;//for checking that whether we are on next question or just continuing the loop;
     int random;// for choosing which option gets displayed besides the correct one in 50=50
     while (ques_num < 15)
@@ -137,7 +118,7 @@ int gameloop(int count)
         {
             printf("Enter [f]/[F] for Flip-The-Question");
         }
-        printf(CYAN"\nEnter [q]/[Q] to quit\n"COLOR_RESET);
+        printf(CYAN"\nEnter [q]\[Q] to quit\n"COLOR_RESET);
         char ans[1024];
         time_t start, end;
         int seconds;
@@ -192,10 +173,7 @@ int gameloop(int count)
             clear_screen();
             if(life2_check==1)
             {
-                if(count%2==0)//flip the the question will be based on count
-                    ques_index=2*ques_num+1;
-                else
-                    ques_index=2*ques_num;
+                ques_index=2*ques_num+1;//gets the odd numbered(alternate question)
                 life2_check=0;//making sure that it doesn't get used again
                 continue;
             }
@@ -292,10 +270,7 @@ int gameloop(int count)
         }
         ques_num++;
         iterator=ques_num-1;//so that when loop starts over then iterator becomes equal to ques_num
-        if(count%2==0)
-            ques_index=2*ques_num;
-        else
-            ques_index=2*ques_num+1;
+        ques_index=2*ques_num;
         clear_screen();
     }
     //////////////////////////////// PLAY AGAIN OR EXIT GAME LOGIC/////////////////////////////////////////////////////
@@ -308,15 +283,10 @@ int gameloop(int count)
             printf(GREEN"CONGRATULATIONS YOU WON 7 CRORE !!! use them well ;)\n"COLOR_RESET);
         }
         printf(CYAN"press [p]/[P] to play again [q]/[Q] to quit\n"COLOR_RESET);
-        FILE *fp_counter;
-        fp_counter = fopen("count.txt","w+");
-        fprintf(fp_counter,"%d",++count);
-        fclose(fp_counter);
-        fp_counter=NULL;
         fgets(again, 1024, stdin);
         if(again[0]==80 || again[0]==112)
         {
-            gameloop(count);
+            gameloop();
         }
         else if(again[0]==81 || again[0]==113)
         {
@@ -469,8 +439,6 @@ int read_questions(struct question questions[], size_t len, char ques_file[])
     }
     fclose(fp);//closing file
     free(buf);
-    fp=NULL;
-    buf=NULL;
     return 0;
 }
 //provide agrument in miliseconds

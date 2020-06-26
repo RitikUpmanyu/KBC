@@ -8,7 +8,8 @@ Team:
 2. 2019B1PS1040P Kush Gambhir
 #############################################################
 Description of how to run the code and observe the output:
-1. The exe is called 2019B3PS517_P3.exe. It is a console Application. 
+1. The exe is called 2019B3PS517_P3.exe. It is a console Application.
+	 PLEASE RUN THE CONSOLE IN FULL SCREEN or enough width otherwise things might not display properly.
 2. The input files are -> 1. questions.txt used for reading questions and options
 		    2. features.c used for displaying questions, options, money and implementing lifelines.
 		    3. formatting.c used for displaying boxes around questions, options and money. 
@@ -23,7 +24,8 @@ Description of how to run the code and observe the output:
 
 ############################################################
 Known limitations of the code (if you have not been able to completely/fully implement certain features that were asked):
-1. Code is a little too big. But No limitations.
+1. Window with too small width will disorient everything, so please run in full screen or big enough window.
+2. Code is a little too big.
 #############################################################
 Contributions of the team members:
 Ritik Upmanyu did reading, fomatting and displaying questions, options and money and testing.
