@@ -21,7 +21,7 @@
 
 #define QUES_POINTER printf("   You are here ->  ")
 
-struct question
+typedef struct
 {
     char *question;
     char *option1;
@@ -29,8 +29,8 @@ struct question
     char *option3;
     char *option4;
     int answer;
-};
-struct question questions[30];
+}Question;
+Question questions[30];
 
 
 //just a helper function for moneyboard
@@ -107,7 +107,7 @@ int money_board(int ques_num, char money[15],char current_money[15])
     return 0;
 }
 //function to display options
-void display_options(struct question questions,int space1, int space2, int selected, int green, int red)
+void display_options(Question questions,int space1, int space2, int selected, int green, int red)
 {
     int green1=0,green2=0,red1=0,red2=0;
     char *spc=" ";
@@ -182,7 +182,7 @@ void display_options(struct question questions,int space1, int space2, int selec
 }
 //Used for displaying the question state when the user has entered an answer
 //Color coding is done to indicate the seleted option
-int display_question(int num, struct question questions, int selected, int correct, int wrong, int life1random)
+int display_question(int num, Question questions, int selected, int correct, int wrong, int life1random)
 {
     char *spc = "    ";
     printf("question %d-->\n", num + 1);

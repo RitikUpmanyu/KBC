@@ -2,9 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
-
 #include "features.c"
-
 #define RED "\x1b[31m"
 #define GREEN "\x1b[32m"
 #define YELLOW "\x1b[33m"
@@ -30,13 +28,15 @@ const char* os = "unknown";
 // these functions are declared here and defined at the end or in different files
 void clear_screen();
 void delay(int trigger);
+int count_gameplay(int,int);
 int gameloop(int count);
-char* frame(int, struct question, int, int, int,int,int,int,int);
-int read_questions(struct question[], size_t, char[]); //this function takes 3 arguments array of stucts, size of that array, and name of the file where questions are stored
+char* frame(int, Question, int, int, int,int,int,int,int, char *);
+int msg_output(int timer,int ques_num,int correct,int wrong,int exit,int quit,char *money, char *current_money);
+int lifeline1(int *life1, int *life1check);
+int lifeline2(int *life2check, int count, int *ques_index, int ques_num);
+int read_questions(Question[], size_t, char[]); //this function takes 3 arguments array of stucts, size of that array, and name of the file where questions are stored
 //these functions are inside features.c here only for reference
-void display_options(struct question questions,int space1, int space2, int selected, int green, int red);
-int display_question(int, struct question,int,int,int, int);
-int lifeline1(struct question,int quesno, int random);
+void display_options(Question questions,int space1, int space2, int selected, int green, int red);
 int money_board(int, char[15],char[15]);
 void moneyfield(int, int, char **, char *, char *);            // this is a helper function for moneyboard
 //these functions are inside formatting.c here only for reference
@@ -51,19 +51,7 @@ void formatopt(char *str1, char *str2, int width, int selected, int correct, int
 //main function still needs work
 int main()
 {
-    int count=1;//for counting the number of times the program has been run, so that we can give alternate questions
-    FILE *fp_count;
-    fp_count = fopen("count.txt","w+");
-    if(fp_count == NULL)
-    {
-        fprintf(fp_count,"%d",count);
-        fclose(fp_count);
-    }
-    else
-    {
-        fscanf(fp_count,"%d",&count);
-        fclose(fp_count);
-    }
+    int count=count_gameplay(0,0);
     gameloop(count);//main gameloop
     return 0;
 }
@@ -89,19 +77,25 @@ int gameloop(int count)
     //for reference --> frame(num,questions[2*num],life1,life1_check,life2_check,options_selected)
     int ques_num=0;
     int ques_index;
+    int *ques_index_ptr=&ques_index;
     //life1 is  50-50 and life2 is flip-the-question
     int life1=0, correct=0, wrong=0;
     int life1_check=1, life2_check=1;
+    int *life1_ptr=&life1;
+    int *life1check_ptr=&life1_check;
+    int *life2check_ptr=&life2_check;
     if(count%2==0)
         ques_index=2*ques_num;
     else
         ques_index=2*ques_num+1;//because there are 30 questions including alternates and we only have to display 15 of them
     int iterator=-1;//for checking that whether we are on next question or just continuing the loop;
     int random;// for choosing which option gets displayed besides the correct one in 50=50
+    char* current_money;
+    current_money = (char *)malloc(15 * sizeof(char));// for how much the question is for
     while (ques_num < 15)
     {
         //argument after life1_check is for life2_check for telling frame that user have that lifeline available or not
-        //argument after that is for selected?locked
+        //argument after that is for selected/locked
         //NOTE if selected != 0, correct and wrong must be 0 and if correct or wrong != 0 selected must be 0
         //NOTE correct and wrong must not be same , otherwise nothing will get be printed
         iterator++;
@@ -128,7 +122,7 @@ int gameloop(int count)
             while(random==questions[ques_index].answer);
         }
         //HERE is the main part - frame prints the question and its return value is money user had already won
-        char *money=frame(ques_num,questions[ques_index],life1,life1_check,life2_check,0,correct,wrong,random);
+        char *money=frame(ques_num,questions[ques_index],life1,life1_check,life2_check,0,correct,wrong,random,current_money);
         int locked=0;
         printf("Enter A/a/B/b/C/c/D/d to choose! ");
         if(life1_check)
@@ -175,45 +169,16 @@ int gameloop(int count)
             break;
         case 76: //l
         case 108: //L
-            clear_screen();
-            if(life1_check==1)
-            {
-                life1=1;//so that frame knows that lifeline has been called
-                life1_check=0;//making sure that it doesn't get used again
-                continue;
-            }
-            else
-            {
-                printf("You don't have 50-50 lifeline left :/\n");
-                delay(500);
-                continue;
-            }
-            break;
+            lifeline1(life1_ptr,life1check_ptr);
+            continue;
         case 70: //f
         case 102: //F
-            clear_screen();
-            if(life2_check==1)
-            {
-                if(count%2==0)//flip the the question will be based on count
-                    ques_index=2*ques_num+1;
-                else
-                    ques_index=2*ques_num;
-                life2_check=0;//making sure that it doesn't get used again
-                continue;
-            }
-            else
-            {
-                printf("You don't have flip the question lifeline left.\n");
-                delay(500);
-                continue;
-            }
-            break;
+            lifeline2(life2check_ptr,count,ques_index_ptr,ques_num);
+            continue;
         case 81: //q
         case 113: //Q
             locked=999;
-            if(ques_num>1)
-                printf("Congratulations!! ");
-            printf("You Won %s\n",money);//money was the return value of frame
+            msg_output(0,ques_num,0,0,0,1,money,current_money);//money was the return value of frame
             break;
         default:
             printf(RED"INVALID INPUT\n"COLOR_RESET);
@@ -227,14 +192,13 @@ int gameloop(int count)
             delay(1000);
             continue;
         }
-        //for quitting the game , triggered when q/Q is entered
-        if(locked==999)
+        if(locked==999)//for quitting the game , triggered when q/Q is entered
         {
             break;
         }
         /////////////////////////////////////CONFIRMING THE ANSWER////////////////////////////////////////////
         clear_screen();
-        frame(ques_num,questions[ques_index],life1,life1_check,life2_check,locked,correct,wrong,random);
+        frame(ques_num,questions[ques_index],life1,life1_check,life2_check,locked,correct,wrong,random,current_money);
         printf(CYAN"Lock kar diya jaye? Are you sure? enter [Y]/[y] to confirm or any other key to choose again.\n"COLOR_RESET);
         char confirm[1024];
         fgets(confirm, 1024, stdin);//Takes input for locking the answer
@@ -255,11 +219,7 @@ int gameloop(int count)
         {
             if (seconds > 30)
             {
-                printf ("Sorry, you were too slow.\n");
-                if(ques_num+1<3)
-                    printf("You won Nothing\n");
-                else if(ques_num+1<8)
-                    printf("You won Rs. 20,000\n");
+                msg_output(1,ques_num,0,0,0,0,money,current_money);
                 break;
             }
         }
@@ -271,25 +231,15 @@ int gameloop(int count)
         if (locked == questions[ques_index].answer)
         {
             clear_screen();
-            frame(ques_num,questions[ques_index],life1,life1_check,life2_check,0,locked,wrong,random);
-            printf(GREEN"CORRECT answer!!!\n"COLOR_RESET);
+            frame(ques_num,questions[ques_index],life1,life1_check,life2_check,0,locked,wrong,random,current_money);
+            msg_output(0,ques_num,1,0,0,0,money,current_money);
             delay(1500);
         }
         else //wrong answer and exiting the game logic
         {
             clear_screen();
-            frame(ques_num,questions[ques_index],life1,life1_check,life2_check,0,questions[ques_index].answer,locked,random);
-            printf(RED"Better luck next time , You won "YELLOW);
-            if(ques_num+1<3)
-                printf("Nothing\n");
-            else if(ques_num+1<8)
-                printf("Rs. 20,000\n");
-            else if(ques_num+1<12)
-                printf("Rs. 3,20,000\n");
-            else
-                printf("Rs. 1,00,00,000\n");
-            printf(COLOR_RESET);
-            delay(1500);
+            frame(ques_num,questions[ques_index],life1,life1_check,life2_check,0,questions[ques_index].answer,locked,random,current_money);
+            msg_output(0,ques_num,0,1,0,0,money,current_money);
             break;
         }
         ques_num++;
@@ -300,21 +250,15 @@ int gameloop(int count)
             ques_index=2*ques_num+1;
         clear_screen();
     }
+    free(current_money);
+    current_money=NULL;
     //////////////////////////////// PLAY AGAIN OR EXIT GAME LOGIC/////////////////////////////////////////////////////
     //freeing memory
     char again[1024];
     while(1)//asking again and again
     {
-        if(ques_num==15)
-        {
-            printf(GREEN"CONGRATULATIONS YOU WON 7 CRORE !!! use them well ;)\n"COLOR_RESET);
-        }
-        printf(CYAN"press [p]/[P] to play again [q]/[Q] to quit\n"COLOR_RESET);
-        FILE *fp_counter;
-        fp_counter = fopen("count.txt","w+");
-        fprintf(fp_counter,"%d",++count);
-        fclose(fp_counter);
-        fp_counter=NULL;
+        msg_output(0,ques_num,0,0,1,0,"","");
+        count=count_gameplay(1,count);
         fgets(again, 1024, stdin);
         if(again[0]==80 || again[0]==112)
         {
@@ -340,15 +284,14 @@ int gameloop(int count)
     }
 }
 //because main questions are even numbered (see ques.txt ) we multiply index of array of structs by 2
-char* frame(int ques_num, struct question questions, int life1,int life1_check, int life2_check, int option_selected, int correct, int wrong, int random)
+char* frame(int ques_num, Question questions, int life1,int life1_check, int life2_check, int option_selected, int correct, int wrong, int random, char *money)
 {
-    char *money;// for how much the question is for
-    char *current_money;//for how much already has been won
+
+    char *won_money;//for how much already has been won
     //allocating memory for both
-    money = (char *)malloc(15 * sizeof(char));
-    current_money = (char *)malloc(15 * sizeof(char));
+    won_money = (char *)malloc(15 * sizeof(char));
     //displaying all moneyboard and where user is currently, this function changes money and current_money which are passed by reference
-    money_board(ques_num, money, current_money);
+    money_board(ques_num, money, won_money);
     //////////////DISPLAYING REMAINING LIFELINES//////////////////////
     printf(GREEN);
     if(life1_check==0||life2_check==0)
@@ -356,22 +299,22 @@ char* frame(int ques_num, struct question questions, int life1,int life1_check, 
         if(life2_check==1)
         {
             printf("\n LIFELINE REMAINING..."YELLOW"  /<--\\ \n");
-            printf("                        \\-->/ ");
+            printf("                        \\-->/ \n");
         }
         if(life1_check==1)
         {
             printf("\n LIFELINE REMAINING...  "YELLOW"/50\\\n");
-            printf("                        \\50/");
+            printf("                        \\50/\n");
         }
     }
     else
     {
         printf("\n LIFELINES REMAINING... "YELLOW"/50 \\ /<--\\ \n");
-        printf("                        \\ 50/ \\-->/");
+        printf("                        \\ 50/ \\-->/\n");
     }
     printf(COLOR_RESET);
     printf(CYAN"\nThis question is for %s\n"COLOR_RESET, money);
-    printf(GREEN"You currently have %s\n"COLOR_RESET, current_money);
+    printf(GREEN"You currently have %s\n"COLOR_RESET, won_money);
     printf(CYAN"If you lose you will get ");
     if(ques_num<3)
         printf("Nothing\n");
@@ -391,10 +334,10 @@ char* frame(int ques_num, struct question questions, int life1,int life1_check, 
     {
         printf(RED"You have 30s to answer this question!!\n"COLOR_RESET);
     }
-    return current_money;
+    return won_money;
 }
 //basically fills the array of structure with the values on questions.txt
-int read_questions(struct question questions[], size_t len, char ques_file[])
+int read_questions(Question questions[], size_t len, char ques_file[])
 {
     //opening file
     FILE *fp = fopen(ques_file, "r");
@@ -414,7 +357,7 @@ int read_questions(struct question questions[], size_t len, char ques_file[])
         {
             break;
         }
-        //filed is somewhat similar to buffer
+        //field is somewhat similar to buffer
         char field[1024];
         int field_pos = 0;
         int i = 0;
@@ -425,8 +368,7 @@ int read_questions(struct question questions[], size_t len, char ques_file[])
             {
                 field[field_pos - 1] = '\0';//making it a string so that strcpy can be used
                 field_pos = 0;
-                //filling the struct instances
-                switch (field_cnt)
+                switch (field_cnt)//filling the struct instances
                 {
                 case 0:
                     strcpy(questions[ques_num].question, field);
@@ -458,17 +400,14 @@ int read_questions(struct question questions[], size_t len, char ques_file[])
     buf=NULL;
     return 0;
 }
-//provide agrument in miliseconds
-void delay(int trigger)
+void delay(int trigger)//provide agrument in miliseconds
 {
     int msec = 0; /* 10ms */
     clock_t before = clock();//from time.h library
     do
     {
-        /*
-         * Do something to busy the CPU just here while you drink a coffee
-         * Be sure this code will not take more than `trigger` ms
-         */
+         //Do something to busy the CPU just here while you drink a coffee
+         //Be sure this code will not take more than `trigger` ms
         clock_t difference = clock() - before;
         msec = difference * 1000 / CLOCKS_PER_SEC;
     }
@@ -489,5 +428,110 @@ void clear_screen()
     else
     {
         printf("\n___________________________________________________________________________________________________\n");
+    }
+}
+//for counting the number of times the program has been run, so that we can give different questions everytime
+int count_gameplay (int insidegame, int count)
+{
+    if(insidegame)
+    {
+        FILE *fp_counter;
+        fp_counter = fopen("count.txt","w+");
+        fprintf(fp_counter,"%d",++count);
+        fclose(fp_counter);
+        fp_counter=NULL;
+    }
+    else
+    {
+        count=1;
+        FILE *fp_count;
+        fp_count = fopen("count.txt","w+");
+        if(fp_count == NULL)
+        {
+            fprintf(fp_count,"%d",count);
+            fclose(fp_count);
+        }
+        else
+        {
+            fscanf(fp_count,"%d",&count);
+            fclose(fp_count);
+        }
+        fp_count=NULL;
+        return count;
+    }
+}
+int lifeline1(int *life1, int *life1check)
+{
+    clear_screen();
+    if(*life1check==1)
+    {
+        *life1=1;//so that frame knows that lifeline has been called
+        *life1check=0;//making sure that it doesn't get used again
+    }
+    else
+    {
+        printf("You don't have 50-50 lifeline left :/\n");
+        delay(500);
+    }
+}
+int lifeline2(int *life2check, int count, int *ques_index, int ques_num)
+{
+    clear_screen();
+    if(*life2check==1)
+    {
+        if(count%2==0)//flip the the question will be based on count
+            *ques_index=2*ques_num+1;
+        else
+            *ques_index=2*ques_num;
+        *life2check=0;//making sure that it doesn't get used again
+    }
+    else
+    {
+        printf("You don't have flip the question lifeline left.\n");
+        delay(500);
+    }
+}
+//these arguments are kindof like switches
+int msg_output(int timer,int ques_num,int correct,int wrong,int exit,int quit,char *money, char *current_money)
+{
+    if(timer)
+    {
+        printf ("Sorry, you were too slow.\n");
+        if(ques_num+1<=3)
+            printf("You won Nothing\n");
+        else if(ques_num+1<=8)
+            printf("You won Rs. 20,000\n");
+    }
+    else if(correct)
+    {
+        printf(GREEN"CORRECT ANSWER!!! You now have %s\n"COLOR_RESET,current_money);
+        delay(1500);
+    }
+    else if(wrong)
+    {
+        printf(RED"Better luck next time , You won "YELLOW);
+        if(ques_num+1<=3)
+            printf("Nothing\n");
+        else if(ques_num+1<=8)
+            printf("Rs. 20,000\n");
+        else if(ques_num+1<=12)
+            printf("Rs. 3,20,000\n");
+        else
+            printf("Rs. 1,00,00,000\n");
+        printf(COLOR_RESET);
+    }
+    else if(quit)
+    {
+        if(ques_num>1)
+            printf("Congratulations!! ");
+        printf("You Won %s\n",money);
+    }
+    else if(exit)
+    {
+        if(ques_num==15)
+        {
+            printf(GREEN"CONGRATULATIONS YOU WON 7 CRORE !!! use them well ;)\n"COLOR_RESET);
+        }
+        printf(CYAN"press [p]/[P] to play again [q]/[Q] to quit\n"COLOR_RESET);
     }
 }
