@@ -9,7 +9,6 @@
 #define CYAN "\x1b[36m"
 #define COLOR_RESET "\x1b[0m"
 // these colors get displayed on console so they can be used like this printf(RED "This text is RED!" COLOR_RESET "\n");
-#define SP printf("    ")
 //////////////////////SCREEN CLEARING LOGIC//////////////////////////
 #if defined(_WIN32) || defined(_WIN64)
 const char* os = "win";
@@ -29,6 +28,7 @@ const char* os = "unknown";
 void clear_screen();
 void delay(int trigger);
 int count_gameplay(int,int);
+void welcome_screen();
 int gameloop(int count);
 char* frame(int, Question, int, int, int,int,int,int,int, char *);
 int msg_output(int timer,int ques_num,int correct,int wrong,int exit,int quit,char *money, char *current_money);
@@ -37,6 +37,7 @@ int lifeline2(int *life2check, int count, int *ques_index, int ques_num);
 int read_questions(Question[], size_t, char[]); //this function takes 3 arguments array of stucts, size of that array, and name of the file where questions are stored
 //these functions are inside features.c here only for reference
 void display_options(Question questions,int space1, int space2, int selected, int green, int red);
+int display_question(Question questions, int selected, int correct, int wrong, int life1random);
 int money_board(int, char[15],char[15]);
 void moneyfield(int, int, char **, char *, char *);            // this is a helper function for moneyboard
 //these functions are inside formatting.c here only for reference
@@ -51,55 +52,7 @@ void formatopt(char *str1, char *str2, int width, int selected, int correct, int
 //main function still needs work
 int main()
 {
-    int i;
-    printf(YELLOW);
-    printf("//////////////////////////////////////////////////////////////////////\n");
-    printf(COLOR_RESET);
-    char *ques_money[15]={"Q1--> Rs. 5,000",
-                          "Q2--> Rs. 10,000",
-                          "Level-1 <Q3--> Rs. 20,000>",
-                          "Q4--> Rs. 40,000",
-                          "Q5--> Rs. 80,000",
-                          "Q6--> Rs. 1,60,000",
-                          "Q7--> Rs. 3,20,000",
-                          "Level-2 <Q8--> Rs. 6,40,000>",
-                          "Q9--> Rs. 12,50,000",
-                          "Q10--> Rs. 25,00,000",
-                          "Q11--> Rs. 50,00,000",
-                          "Level-3 <Q12--> Rs. 1,00,00,000>",
-                          "Q13--> Rs. 3,00,00,000",
-                          "Q14--> Rs. 5,00,00,000",
-                          "Q15--> Rs. 7,00,00,000",};
-    for(i=0;i<15;i++)
-    {
-        if(i==2)
-        {
-            printf("         ");
-            printf("%s\n",ques_money[i]);
-        }
-        else if(i==7)
-        {
-            printf("         ");
-            printf("%s\n",ques_money[i]);
-        }
-        else if(i==11)
-        {
-            printf("         ");
-            printf("%s\n",ques_money[i]);
-        }
-        else
-        {
-            printf("                  ");
-            printf("%s\n",ques_money[i]);
-        }
-    }
-    printf(GREEN"Life lines: "COLOR_RESET);
-    printf(YELLOW);
-    printf("            50-50 \n");
-    printf("            Flip the question\n"COLOR_RESET);
-    printf(CYAN"Press any key then press enter to start the game\n"COLOR_RESET);
-    scanf("%d",&i);
-    clear_screen();
+    welcome_screen();
     int count=count_gameplay(0,0);
     gameloop(count);//main gameloop
     return 0;
@@ -362,9 +315,7 @@ char* frame(int ques_num, Question questions, int life1,int life1_check, int lif
         printf("                        \\ 50/ \\-->/\n");
     }
     printf(COLOR_RESET);
-    printf(CYAN"\nThis question is for %s\n"COLOR_RESET, money);
-    printf(GREEN"You currently have %s\n"COLOR_RESET, won_money);
-    printf(CYAN"If you lose you will get ");
+    printf(CYAN"\nIf you lose you will get ");
     if(ques_num<3)
         printf("Nothing\n");
     else if(ques_num<8)
@@ -374,11 +325,13 @@ char* frame(int ques_num, Question questions, int life1,int life1_check, int lif
     else
         printf("Rs. 1,00,00,000\n");
     printf(COLOR_RESET);
+    printf(GREEN"You currently have %s\n"COLOR_RESET, won_money);
     if(life1==0)//i.e. 50-50
     {
         random=0;
     }
-    display_question(ques_num, questions, option_selected, correct, wrong, random);
+    printf("question %d -> "CYAN"This question is for %s\n"COLOR_RESET,ques_num + 1, money);
+    display_question(questions, option_selected, correct, wrong, random);
     if(ques_num<4&&correct==0)//telling user about the timer
     {
         printf(RED"You have 30s to answer this question!!\n"COLOR_RESET);
@@ -509,6 +462,7 @@ int count_gameplay (int insidegame, int count)
         return count;
     }
 }
+//for 50-50
 int lifeline1(int *life1, int *life1check)
 {
     clear_screen();
@@ -523,6 +477,7 @@ int lifeline1(int *life1, int *life1check)
         delay(500);
     }
 }
+//for Flip-The-Question
 int lifeline2(int *life2check, int count, int *ques_index, int ques_num)
 {
     clear_screen();
@@ -583,4 +538,54 @@ int msg_output(int timer,int ques_num,int correct,int wrong,int exit,int quit,ch
         }
         printf(CYAN"Enter [p]/[P] to play again or [q]/[Q] to quit\n"COLOR_RESET);
     }
+}
+void welcome_screen(){
+    clear_screen();
+    int i;
+    printf(YELLOW);
+    printf("//////////////////////////////////////////////////////////////////////\n");
+    printf(COLOR_RESET);
+    printf("WELCOME TO\n");delay(200);
+    printf(GREEN"            _/   _/    _/_/        _/_/  \n");
+         printf("            _/  _/     _/  _/    _/      \n");
+         printf("            _/_/       _/_/     _/       \n");
+         printf("            _/  _/     _/  _/    _/      \n");
+         printf("            _/    _/   _/_/        _/_/  \n\n"COLOR_RESET);delay(400);
+    //delay are just for the effect, not a bug.
+    char *ques_money[15]={"Q1--> Rs. 5,000",
+                          "Q2--> Rs. 10,000",
+                          "Level-1 <Q3--> Rs. 20,000>",
+                          "Q4--> Rs. 40,000",
+                          "Q5--> Rs. 80,000",
+                          "Q6--> Rs. 1,60,000",
+                          "Q7--> Rs. 3,20,000",
+                          "Level-2 <Q8--> Rs. 6,40,000>",
+                          "Q9--> Rs. 12,50,000",
+                          "Q10--> Rs. 25,00,000",
+                          "Q11--> Rs. 50,00,000",
+                          "Level-3 <Q12--> Rs. 1,00,00,000>",
+                          "Q13--> Rs. 3,00,00,000",
+                          "Q14--> Rs. 5,00,00,000",
+                          "Q15--> Rs. 7,00,00,000",};
+    for(i=0;i<15;i++)
+    {
+        if(i==2 || i==7 || i==11)
+        {
+            printf("             ");
+            printf("%s\n",ques_money[i]);
+        }
+        else
+        {
+            printf("                      ");
+            printf("%s\n",ques_money[i]);
+        }
+    }delay(100);
+    printf(GREEN"\nLife lines: \n"COLOR_RESET);delay(300);
+    printf(YELLOW);
+    printf("            50-50 \n");
+    printf("            Flip the question\n"COLOR_RESET);delay(200);
+    
+    printf(CYAN"\nPress enter to start the game\n"COLOR_RESET);
+    char start[1024];//so tthat this input doesn't affect the next ones
+    fgets(start, 1024, stdin);
 }

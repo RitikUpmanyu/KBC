@@ -182,10 +182,9 @@ void display_options(Question questions,int space1, int space2, int selected, in
 }
 //Used for displaying the question state when the user has entered an answer
 //Color coding is done to indicate the seleted option
-int display_question(int num, Question questions, int selected, int correct, int wrong, int life1random)
+int display_question(Question questions, int selected, int correct, int wrong, int life1random)
 {
     char *spc = "    ";
-    printf("question %d-->\n", num + 1);
     printf(YELLOW);
     formatques(questions.question, 71, 0);
     printf("\n");
