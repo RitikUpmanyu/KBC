@@ -51,6 +51,55 @@ void formatopt(char *str1, char *str2, int width, int selected, int correct, int
 //main function still needs work
 int main()
 {
+    int i;
+    printf(YELLOW);
+    printf("//////////////////////////////////////////////////////////////////////\n");
+    printf(COLOR_RESET);
+    char *ques_money[15]={"Q1--> Rs. 5,000",
+                          "Q2--> Rs. 10,000",
+                          "Level-1 <Q3--> Rs. 20,000>",
+                          "Q4--> Rs. 40,000",
+                          "Q5--> Rs. 80,000",
+                          "Q6--> Rs. 1,60,000",
+                          "Q7--> Rs. 3,20,000",
+                          "Level-2 <Q8--> Rs. 6,40,000>",
+                          "Q9--> Rs. 12,50,000",
+                          "Q10--> Rs. 25,00,000",
+                          "Q11--> Rs. 50,00,000",
+                          "Level-3 <Q12--> Rs. 1,00,00,000>",
+                          "Q13--> Rs. 3,00,00,000",
+                          "Q14--> Rs. 5,00,00,000",
+                          "Q15--> Rs. 7,00,00,000",};
+    for(i=0;i<15;i++)
+    {
+        if(i==2)
+        {
+            printf("         ");
+            printf("%s\n",ques_money[i]);
+        }
+        else if(i==7)
+        {
+            printf("         ");
+            printf("%s\n",ques_money[i]);
+        }
+        else if(i==11)
+        {
+            printf("         ");
+            printf("%s\n",ques_money[i]);
+        }
+        else
+        {
+            printf("                  ");
+            printf("%s\n",ques_money[i]);
+        }
+    }
+    printf(GREEN"Life lines: "COLOR_RESET);
+    printf(YELLOW);
+    printf("            50-50 \n");
+    printf("            Flip the question\n"COLOR_RESET);
+    printf(CYAN"Press any key then press enter to start the game\n"COLOR_RESET);
+    scanf("%d",&i);
+    clear_screen();
     int count=count_gameplay(0,0);
     gameloop(count);//main gameloop
     return 0;
@@ -532,6 +581,6 @@ int msg_output(int timer,int ques_num,int correct,int wrong,int exit,int quit,ch
         {
             printf(GREEN"CONGRATULATIONS YOU WON 7 CRORE !!! use them well ;)\n"COLOR_RESET);
         }
-        printf(CYAN"press [p]/[P] to play again [q]/[Q] to quit\n"COLOR_RESET);
+        printf(CYAN"Enter [p]/[P] to play again or [q]/[Q] to quit\n"COLOR_RESET);
     }
 }
