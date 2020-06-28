@@ -8,6 +8,7 @@
 #define YELLOW "\x1b[33m"
 #define CYAN "\x1b[36m"
 #define COLOR_RESET "\x1b[0m"
+#define GO_DOWN(x) printf("%c[%dB", 0x1B,x);
 // these colors get displayed on console so they can be used like this printf(RED "This text is RED!" COLOR_RESET "\n");
 //////////////////////SCREEN CLEARING LOGIC//////////////////////////
 #if defined(_WIN32) || defined(_WIN64)
@@ -28,6 +29,7 @@ const char* os = "unknown";
 void clear_screen();
 void delay(int trigger);
 int count_gameplay(int,int);
+void loading(int,int,int,int);
 void welcome_screen();
 int gameloop(int count);
 char* frame(int, Question, int, int, int,int,int,int,int, char *);
@@ -52,6 +54,7 @@ void formatopt(char *str1, char *str2, int width, int selected, int correct, int
 //main function still needs work
 int main()
 {
+    loading(30,10,20,20);
     welcome_screen();
     int count=count_gameplay(0,0);
     gameloop(count);//main gameloop
@@ -442,6 +445,7 @@ int count_gameplay (int insidegame, int count)
         fprintf(fp_counter,"%d",++count);
         fclose(fp_counter);
         fp_counter=NULL;
+        return count;
     }
     else
     {
@@ -584,8 +588,89 @@ void welcome_screen(){
     printf(YELLOW);
     printf("            50-50 \n");
     printf("            Flip the question\n"COLOR_RESET);delay(200);
-    
-    printf(CYAN"\nPress enter to start the game\n"COLOR_RESET);
+    printf(CYAN"\n");
+    char *msg="Press ENTER to start the game";
+    for(int i=0;i<29;i++){
+        printf("%c",msg[i]);
+        fflush(stdout);
+        delay(20);
+    }
+    printf("\n"COLOR_RESET);
     char start[1024];//so tthat this input doesn't affect the next ones
     fgets(start, 1024, stdin);
+}
+void loading(int time, int top, int left, int width)
+{
+    int dividetill3(int num)
+    {
+        if (num<=3)
+            return num;
+        else
+        {
+            num/=3;
+            dividetill3(num);
+        }
+    }
+    clear_screen();
+
+    for(int i=0; i<width; i++)
+    {
+        GO_DOWN(top) //a macro using ANSI escape sequence to move the cursor down given number of lines
+        for(int k=0; k<left+1; k++)
+        {
+            printf(" ");
+        }
+        for(int k=0; k<width; k++)
+        {
+            printf("_");
+        }
+        printf("\n");
+        for(int k=0; k<left; k++)
+        {
+            printf(" ");
+        }
+        printf("[");
+        for(int j=0; j<width; j++)
+        {
+            if(j<=i)
+            {
+                printf("$");
+            }
+            else
+            {
+                printf(" ");
+            }
+        }
+        printf("]");
+        printf("\n");
+        for(int k=0; k<left+1; k++)
+        {
+            printf(" ");
+        }
+        for(int k=0; k<width; k++)
+        {
+            printf("^");
+        }
+        printf("\n");
+        for(int k=0; k<(left+(width/3)); k++)
+        {
+            printf(" ");
+        }
+        printf("LOADING");
+        for(int j=0; j<3; j++)
+        {
+            int q=dividetill3(i);
+            if(j+1<=q)
+            {
+                printf(".");
+            }
+            else
+            {
+                printf(" ");
+            }
+        }
+        printf("\n");
+        delay(time/width);
+        clear_screen();
+    }
 }
