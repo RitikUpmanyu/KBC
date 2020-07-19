@@ -15,7 +15,7 @@
 4. *count.txt* will automatically be generated when you compile the code for the first time,
    it will keep track of how many times the game has been played. So that, we can display different questions based on the count.
    *To test this you can try to play again after losing or quitting.*
-5. When you compile and run *kbc.c*, it will display the welcome screen, press *ENTER* to start the game, or *[q]/[Q]*to quit.
+5. When you compile and run *kbc.c*, it will display the welcome screen, press *ENTER* to start the game, or *q/Q*to quit.
 6. When you press *ENTER* on the welcome screen, the first question will be displayed on the screen.
    Along with your lifelines and a money board.
 7. For the first **4** questions, You will only have **30** seconds to answer.
